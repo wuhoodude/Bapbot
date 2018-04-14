@@ -36,6 +36,10 @@ let commands = {
 		this.pm(user, "BAP");
 		this.say("You cannot bap people");
 	},
+	git: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");
+	},
 	about: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say(Config.username + " code by sirDonovan: https://github.com/sirDonovan/Cassius");

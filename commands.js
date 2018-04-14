@@ -30,7 +30,7 @@ let commands = {
 	},
 
 	// General commands
-		bap: function (target, room, user) {
+	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		if (!target) return this.say("/wall BAP");
 		this.pm(user, "BAP");

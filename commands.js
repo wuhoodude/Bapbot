@@ -30,6 +30,12 @@ let commands = {
 	},
 
 	// General commands
+		bap: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		if (!target) return this.say("/wall BAP");
+		this.pm(user, "BAP");
+		this.say("You cannot bap people");
+	},
 	about: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say(Config.username + " code by sirDonovan: https://github.com/sirDonovan/Cassius");

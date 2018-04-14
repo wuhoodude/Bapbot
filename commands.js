@@ -40,6 +40,12 @@ let commands = {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");
 	},
+	bop: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return;
+		this.say("/mute " + target);
+		this.say("/hidetext " + target);
+		this.say("/unmute " + target);
+	},
 	about: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say(Config.username + " code by sirDonovan: https://github.com/sirDonovan/Cassius");

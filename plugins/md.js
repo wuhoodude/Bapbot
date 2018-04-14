@@ -25,6 +25,7 @@ function getDatabase(room) {
 	let database = Storage.getDatabase(room);
 	if (!database.roasts) database.roasts = [];
 	if (!database.roastbans) database.roastbans = [];
+	if (!database.bapbans) database.bapbans = [];
 	return database;
 }
 
@@ -51,7 +52,7 @@ let commands = {
 		if (!target) return this.say("Correct syntax: ``.roastunban username``");
 		let roastbans = database.roastbans;
 		let index = roastbans.findIndex(/**@param {string} roastban */ roastban => Tools.toId(roastban) === Tools.toId(target));
-		if (index < 0) return this.say("That user is already banned from using roast commands.");
+		if (index < 0) return this.say("That user is already unbanned from using roast commands.");
 		roastbans.splice(index, 1);
 		Storage.exportDatabase(room.id);
 		this.say("" + target + " was successfully unbanned from using roasting commands.");
@@ -79,7 +80,7 @@ let commands = {
 		let roasts = database.roasts;
 		let index = roasts.findIndex(/**@param {string} roast */ roast => Tools.toId(roast) === Tools.toId(target));
 		if (index >= 0) return this.say("That roast already exists.");
-		if (!target.includes('{user}')) return this.say("Your roast doesn't have the characters ``{user}`` in it. (``{}`` is used to locate where the target username goes when you use ``@roast {user}``)");
+		if (!target.includes('{user}')) return this.say("Your roast doesn't have the characters ``{user}`` in it. (``{}`` is used to locate where the target username goes when you use ``.roast {user}``)");
 		if (target[0] === '/') return this.say("Roasts aren't allowed to start with slashes.");
 		for (const letter of target.replace(' ', '')) {
 			if (target[target.indexOf(letter) + 1] === letter &&
@@ -140,12 +141,18 @@ let commands = {
 		this.say("You cannot bap people");
 	},
 	bop: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return this.say("Git good");
+		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return this.say("Git good you have to be @ to ~~ab00se~~ bop users");
 		this.say("/mute " + target);
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);
 	},
-
+	//Tour Commands
+	pov: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '%')) return;
+		this.say("/tour new gen7uu,elim");
+		this.say("/tour rules -aggron-mega, -moltres, -snorlax, -hidden power, -regenerator");
+		this.say("/wall This is a Povertymons tour!");
+	},
 	// General commands
 	git: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;

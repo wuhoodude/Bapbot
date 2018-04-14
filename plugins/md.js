@@ -1,9 +1,4 @@
 /**
- * Extra
- * One Botty Boi - link here
- *
- * All-around plugin for Extra
- *
  * @license MIT license
  */
 

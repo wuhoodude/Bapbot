@@ -5,11 +5,11 @@
 ``.help``-Links to this guide<br>
 ``.git``-Links the code for Bapbot<br>
 ### @ only
-``.bop [user]``-Mutes, clears text and unmutes a user
+``.bop [user]``-Mutes, clears text and unmutes a user<br>
 ##uno
 ``.uno``-Creates an uno game<br>
 ``.uno start``-starts uno<br>
-``uno end``-ends uno<br>
+``.uno end``-ends uno<br>
 ## Quotes - Voice and Above
 `.addquote [quote]` - adds quotes to the database<br>
 `.removequote [quotes]` OR `.deletequote [quote]` -  deletes quotes from the database<br>

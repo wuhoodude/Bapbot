@@ -29,27 +29,21 @@ let commands = {
 		}
 	},
 
-	// General commands
+	//Fun Room Commands
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		if (!target) return this.say("/wall BAP");
 		this.pm(user, "BAP");
 		this.say("You cannot bap people");
 	},
-	git: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");
-	},
+	
 	bop: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return this.say("Git good");
 		this.say("/mute " + target);
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);
 	},
-	about: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		this.say(Config.username + " code by sirDonovan: https://github.com/sirDonovan/Cassius");
-	},
+	
 	// UNO commands
 	uno: function (target, room, user) {
 		if (target === 'end') return this.say('/uno end');
@@ -84,6 +78,15 @@ let commands = {
 			"Accidents happen. LIKE YOU!", target + " is proof god has a sense of humor",
 		];
 		this.say(Tools.sampleOne(roasts));
+	},
+	//General Commands
+	git: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");
+	},
+	about: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		this.say(Config.username + " code by sirDonovan: https://github.com/sirDonovan/Cassius");
 	},
 	help: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;

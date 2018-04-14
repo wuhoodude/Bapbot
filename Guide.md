@@ -1,6 +1,6 @@
-#Bapbot
+# A Guide for Bapbot
 
-##General
+## General
 ``.bap``-Bapbot says bap in the chat<br>
 ``.help``-Links to this guide<br>
 ``.git``-Links the code for Bapbot<br>
@@ -20,7 +20,7 @@
 ``.removeroast [roast]``-Deletes roast from the database<br>
 ``.roast [user]``- Roasts a user<br>
 ``.roasts``-Shows the room's roasts<br>
-###RO and Developers Only<br>
+### RO and Developers Only<br>
 ``.roastban user``-Bans user from using roast commands<br>
 ``.roastunban user``-Unbans user from the roast banlist<br>
 ``.roastbans``-Bapbot will show the roast banlist through PM<br>

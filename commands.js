@@ -38,7 +38,7 @@ let commands = {
 	},
 	
 	bop: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return this.say("Git good" + user);
+		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return this.say("Git good");
 		this.say("/mute " + target);
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);

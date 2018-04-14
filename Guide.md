@@ -1,4 +1,5 @@
-#A Guide for Bapbot
+#Bapbot
+
 ##General
 ``.bap``-Bapbot says bap in the chat
 ``.help``-Links to this guide

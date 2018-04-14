@@ -80,6 +80,7 @@ let commands = {
 		let index = roasts.findIndex(/**@param {string} roast */ roast => Tools.toId(roast) === Tools.toId(target));
 		if (index >= 0) return this.say("That roast already exists.");
 		if (!target.includes('{user}')) return this.say("Your roast doesn't have the characters ``{user}`` in it. (``{}`` is used to locate where the target username goes when you use ``@roast {user}``)");
+		if (target[0] === '/') return this.say("Roasts aren't allowed to start with slashes.");
 		for (const letter of target.replace(' ', '')) {
 			if (target[target.indexOf(letter) + 1] === letter &&
 				target[target.indexOf(letter) + 2] === letter &&
@@ -111,7 +112,8 @@ let commands = {
 		if (!target) return this.say("Correct syntax: ``.roast username``");
 		if (Tools.toId(target) === 'bapbot') return this.say("YoU cAnNoT rOaSt Me");
 		if (target.length > 18) return this.say("Please use a real username.");
-		this.say(Tools.sampleOne(roasts).replace("{user}", "" + target));
+		if (target[0] === '/') return this.say("Usernames aren't allowed to start with slashes.");
+		this.say(Tools.sampleOne(roasts).replace(/{user}/g, target));
 	},
 	roasts: function (target, room, user) {
 		let database = getDatabase(room.id);

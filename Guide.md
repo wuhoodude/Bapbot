@@ -6,7 +6,7 @@
 ``.git``-Links the code for Bapbot<br>
 ### @ only
 ``.bop [user]``-Mutes, clears text and unmutes a user<br>
-## uno
+## Uno
 ``.uno``-Creates an uno game<br>
 ``.uno start``-starts uno<br>
 ``.uno end``-ends uno<br>

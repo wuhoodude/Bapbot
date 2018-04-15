@@ -136,11 +136,10 @@ let commands = {
 	},
 
 	// Fun commands
+	// Fix bap command so it will tell user that they cannot bap people if they try to put in a username as a target
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		if (!target) return this.say("/wall BAP");
-		this.pm(user, "/wall BAP");
-		this.say("Get Bapped on. You can't bap people");
 		if (target === '~') return this.say ("/wall ~~BAP~~");
 		if (target ==='*') return this.say ("/wall **BAP**");
 		if (target === '_') return this.say ("/wall __BAP__");

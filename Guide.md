@@ -27,7 +27,7 @@
 ``.uno``-Creates an uno game<br>
 ``.uno start``-starts uno<br>
 ``.uno end``-ends uno<br>
-## Quotes - Voice and Above
+## Quotes 
 `.addquote [quote]` - adds quotes to the database<br>
 `.removequote [quotes]` OR `.deletequote [quote]` -  deletes quotes from the database<br>
 `.randquote` - bot generates a random quote from the database<br>

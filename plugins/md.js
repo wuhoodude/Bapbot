@@ -139,17 +139,21 @@ let commands = {
 	
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		if (!target) return this.say("/wall BAP");
-		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("/wall ~~BAP~~");
-		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say("/wall **BAP**");
-		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say("/wall __BAP__");
-		if (['^', '^^', 'carrot', 'superscript'].includes(target)) return this.say("/wall ^^BAP^^");
-		if (['\\', '\\\\', 'subscript'].includes(target)) return this.say("/wall \\\\BAP\\\\"); 
-		if (['`', '``', 'code', 'inline'].includes(target)) return this.say("/wall ``BAP``");
-		if (['>', 'greentext', 'memearrow'].includes(target)) return this.say("/wall >BAP");
-		if (['/', 'me', 'roleplay'].includes(target)) return this.say("/me BAPS");
+		if (!target) return this.say("BAP");
+		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say(" ~~BAP~~");
+		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
+		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say(" __BAP__");
+		if (['^', '^^', 'carrot', 'superscript'].includes(target)) return this.say(" ^^BAP^^");
+		if (['\\', '\\\\', 'subscript'].includes(target)) return this.say(" \\\\BAP\\\\"); 
+		if (['`', '``', 'code', 'inline'].includes(target)) return this.say(" ``BAP``");
+		if (['>', 'greentext', 'memearrow'].includes(target)) return this.say(">BAP");
+		if (['/', 'me', 'roleplay', '/me'].includes(target)) return this.say("/me BAPS");
 		if ([':', 'spoil', 'spoiler'].includes(target)) return this.say("spoiler:BAP");
 		if (['[', '[[', 'link'].includes(target)) return this.say("[[BAP]]");
+		if (['w', 'wall'].includes(target)) return this.say("/wall BAP");
+		if (['d', 'declare'].includes(target)) return this.say("/declare BAP");
+		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
+		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		this.pm(user, "**BAP**");
 		this.say("Get bapped on. You cannot bap people");
 	},

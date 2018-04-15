@@ -145,12 +145,14 @@ let commands = {
 		if (target ==='*') return this.say("/wall **BAP**");
 		if (target === '_') return this.say("/wall __BAP__");
 		if (target ==='^') return this.say("/wall ^^BAP^^");
-		if (target ==='\\') return this.say("/wall \\\\BAP\\\\"); 
+		if (target ==='\\') return this.say("/wall \\\\BAP\\\\"); //Fix command to format subscript bap
 		if (target ==='`') return this.say("/wall ``BAP``");
 		if (target === '>') return this.say("/wall >BAP");
 		if (target === 'me') return this.say("/me BAPS");
 		if (target === 'spoil') return this.say("spoiler:BAP");
 		if (target === 'link') return this.say("[[BAP]]");
+		this.pm(user, "**BAP**");
+		this.say("You cannot bap people");
 		
 	},
 	bop: function (target, room, user) {

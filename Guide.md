@@ -10,7 +10,7 @@
 ``.bap _`` ``.bap __`` ``.bap emphasis`` ``.bap italic``   <i>BAP</i><br>
 ``.bap ^`` ``.bap ^^`` ``.bap carrot``  ``.bap superscript`` <sup>BAP</sup><br>
 ``.bap \`` ``.bap \\`` ``.bap subscript`` <sub>BAP</sub> <br>
-``.bap ` `` .bap `` `` ``.bap code`` ``.bap inline`` ``BAP``<br>
+``.bap ` `` ``.bap `(twice)`` ``.bap code`` ``.bap inline`` ``BAP``<br>
 ``.bap >`` ``.bap greentext`` ``.bap memearrow`` >BAP<br>
 ``.bap /`` ``.bap roleplay`` ``.bap me`` ``.bap /me`` • *Bapbot BAPS<br>
 ``.bap :`` ``.bap spoil`` ``.bap spoiler`` <spoiler>BAP</spoiler><br>

@@ -148,6 +148,7 @@ let commands = {
 		if (target ==='^') return this.say ("/wall ^^BAP^^");
 		if (target ==='\ ') return this.say ("/wall \\BAP\\");
 		if (target ==='`') return this.say ("/wall ``BAP``");
+		if (target === '>') return this.say ("/wall >BAP");
 	},
 	bop: function (target, room, user) {
 		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");

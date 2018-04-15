@@ -138,7 +138,7 @@ let commands = {
 	// Fun commands
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		if (!target) return this.say("/wall BAP");
+		if (!target) return this.say("/wall **BAP**");
 		this.pm(user, "/wall BAP");
 		this.say("You cannot bap people");
 		this.say("Also, get Bapped on");

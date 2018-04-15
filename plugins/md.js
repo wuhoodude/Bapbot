@@ -142,7 +142,7 @@ let commands = {
 		this.pm(user, "/wall BAP");
 		this.say("You cannot bap people");
 		this.say("Also, get Bapped on");
-		if (target === '`') return this.say ("/wall ~~BAP~~");
+		if (target === '~') return this.say ("/wall ~~BAP~~");
 		if (target ==='*') return this.say ("/wall **BAP**");
 		if (target === '_') return this.say ("/wall __BAP__");
 		if (target ==='^') return this.say ("/wall ^^BAP^^");

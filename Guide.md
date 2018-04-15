@@ -9,9 +9,9 @@
 ``.bap *`` ``.bap **`` ``.bap bold`` ``.bap strong``  **BAP**<br>
 ``.bap _`` ``.bap __`` ``.bap emphasis`` ``.bap italic``   <i>BAP</i><br>
 ``.bap ^`` ``.bap ^^`` ``.bap carrot``  ``.bap superscript`` <sup>BAP</sup><br>
-``.bap \`` ``.bap \\`` ``subscript`` <sub>BAP</sub> <br>
+``.bap \`` ``.bap \\`` ``.bap subscript`` <sub>BAP</sub> <br>
 ``.bap ` `` .bap `` `` ``.bap code`` ``.bap inline`` ``BAP``<br>
-``.bap >`` ``.bap greentext`` ``.bap memearrow`` >BAP
+``.bap >`` ``.bap greentext`` ``.bap memearrow`` >BAP<br>
 ``.bap /`` ``.bap roleplay`` ``.bap me`` ``.bap /me`` • *Bapbot BAPS<br>
 ``.bap :`` ``.bap spoil`` ``.bap spoiler`` <spoiler>BAP</spoiler><br>
 ``.bap [`` ``.bap[[`` ``.bap link`` <a href="https://www.google.com/search?safe=strict&client=firefox-b-1&ei=o_jSWsXCG4XetQWHnae4CQ&q=BAP&oq=BAP&gs_l=psy-ab.12...0.0.0.13044.0.0.0.0.0.0.0.0..0.0....0...1c..64.psy-ab..0.0.0....0.mqkv_1bsQHg">BAP</a><br>
@@ -21,7 +21,7 @@
 
 
 
-### @ only
+### @ and Dev only
 ``.bop [user]``-Mutes, clears text and unmutes a user<br>
 ## Uno
 ``.uno``-Creates an uno game<br>

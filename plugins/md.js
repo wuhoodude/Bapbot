@@ -12,7 +12,9 @@
 function canRoastban(user, room) {
 	return user.isDeveloper() || user.hasRank(room, '#');
 }
-
+function canBop(user, room) {
+	return user.isDeveloper() || user.hasRank(room, '@');
+}
 /**
  * Obtains the given room's database. If the quotes database
  * wasn't already initialised, then it is done here.
@@ -137,12 +139,14 @@ let commands = {
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		if (!target) return this.say("/wall BAP");
-		this.pm(user, "BAP");
+		this.pm(user, "/wall BAP");
 		this.say("You cannot bap people");
+		this.say("Also, get Bapped on");
 	},
 	bop: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return this.say("Git good you have to be @ to ~~ab00se~~ bop users");
-		this.say("/mute " + target);
+		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");
+		if (!target) return this.say ("``.bop user`` to bop");
+		this.say("/mute " + target + ",bap");
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);
 	},

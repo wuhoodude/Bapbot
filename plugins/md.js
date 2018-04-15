@@ -136,7 +136,7 @@ let commands = {
 	},
 
 	// Fun commands
-	// Fix bap command so it will tell user that they cannot bap people if they try to put in a username as a target
+	
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		if (!target) return this.say("/wall BAP");
@@ -144,14 +144,14 @@ let commands = {
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say("/wall **BAP**");
 		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say("/wall __BAP__");
 		if (['^', '^^', 'carrot', 'superscript'].includes(target)) return this.say("/wall ^^BAP^^");
-		if (['\\', '\\\\', 'subscript'].includes(target)) return this.say("/wall \\\\BAP\\\\"); //Fix command to format subscript bap
+		if (['\\', '\\\\', 'subscript'].includes(target)) return this.say("/wall \\\\BAP\\\\"); 
 		if (['`', '``', 'code', 'inline'].includes(target)) return this.say("/wall ``BAP``");
 		if (['>', 'greentext', 'memearrow'].includes(target)) return this.say("/wall >BAP");
 		if (['/', 'me', 'roleplay'].includes(target)) return this.say("/me BAPS");
 		if ([':', 'spoil', 'spoiler'].includes(target)) return this.say("spoiler:BAP");
 		if (['[', '[[', 'link'].includes(target)) return this.say("[[BAP]]");
 		this.pm(user, "**BAP**");
-		this.say("You cannot bap people");
+		this.say("Get bapped on. You cannot bap people");
 	},
 	bop: function (target, room, user) {
 		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");

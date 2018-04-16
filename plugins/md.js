@@ -76,7 +76,7 @@ let commands = {
 	},
 	addroast: function (target, room, user) {
 		let database = getDatabase(room.id);
-		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return;
+		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return this.say("You are not allowed to use roast commands");
 		target = target.trim();
 		if (!target) return this.say("Correct syntax: ``.addroast roast``");
 		let roasts = database.roasts;
@@ -97,7 +97,7 @@ let commands = {
 	},
 	removeroast: function (target, room, user) {
 		let database = getDatabase(room.id);
-		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return;
+		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return this.say("You are not allowed to use roast commands");
 		target = target.trim();
 		if (!target) return this.say("Correct syntax: ``.removeroast roast``");
 		let roasts = database.roasts;
@@ -109,7 +109,7 @@ let commands = {
 	},
 	roast: function (target, room, user) {
 		let database = getDatabase(room.id);
-		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return;
+		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return this.say("You are not allowed to use roast commands");
 		let roasts = database.roasts;
 		if (!roasts.length) return this.say("This room doesn't have any roasts.");
 		if (!target) return this.say("Correct syntax: ``.roast username``");
@@ -134,24 +134,21 @@ let commands = {
 			this.say("Roasts: " + hastebinUrl);
 		});
 	},
-
 	// Fun commands
-	
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		if (!target) return this.say("BAP");
 		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say(" ~~BAP~~");
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
 		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say(" __BAP__");
-		if (['^', '^^', 'carrot', 'superscript'].includes(target)) return this.say(" ^^BAP^^");
-		if (['\\', '\\\\', 'subscript'].includes(target)) return this.say(" \\\\BAP\\\\"); 
-		if (['`', '``', 'code', 'inline'].includes(target)) return this.say(" ``BAP``");
+		if (['^', '^^', 'carrot', 'superscript'].includes(target)) return this.say("^^BAP^^");
+		if (['\\', '\\\\', 'subscript'].includes(target)) return this.say("\\\\BAP\\\\");
+		if (['`', '``', 'code', 'inline'].includes(target)) return this.say("``BAP``");
 		if (['>', 'greentext', 'memearrow'].includes(target)) return this.say(">BAP");
 		if (['/', 'me', 'roleplay', '/me'].includes(target)) return this.say("/me BAPS");
 		if ([':', 'spoil', 'spoiler'].includes(target)) return this.say("spoiler:BAP");
 		if (['[', '[[', 'link'].includes(target)) return this.say("[[BAP]]");
 		if (['w', 'wall'].includes(target)) return this.say("/wall BAP");
-		if (['d', 'declare'].includes(target)) return this.say("/declare BAP");
 		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		this.pm(user, "**BAP**");
@@ -159,7 +156,7 @@ let commands = {
 	},
 	bop: function (target, room, user) {
 		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");
-		if (!target) return this.say ("``.bop user`` to bop");
+		if (!target) return this.say("``.bop user`` to bop");
 		this.say("/mute " + target + ",bap");
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);

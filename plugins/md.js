@@ -184,7 +184,7 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let gifs = getDatabase(room.id).gif;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		this.say(Tools.sampleOne(gifs));
+		this.say("/addhtmlbox <img src=+Tools.sampleOne(gifs)+width=500px height=316px />");
 	},
 	gifs: function (target, room, user) {
 		let database = getDatabase(room.id);

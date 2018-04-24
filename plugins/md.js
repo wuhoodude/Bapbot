@@ -161,7 +161,7 @@ let commands = {
 		let database = getDatabase(room.id);
 		target = target.trim();
 		if (!target) return this.say("Please use the following format: .addgif gif");
-		let gif = database.gif;
+		let gifs = database.gifs;
 		let index = gifs.findIndex(/**@param {string} gif */ gif => Tools.toId(gif) === Tools.toId(target));
 		if (index >= 0) return this.say("That gif already exists.");
 		gifs.push(target);
@@ -181,10 +181,12 @@ let commands = {
 		this.say("Your gif was successfully removed.");
 	},
 	randgif: function (target, room, user) {
+		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		let gifs = getDatabase(room.id).gif;
+		let gifs = getDatabase(room.id).gifs;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		this.say("/addhtmlbox <img src=+Tools.sampleOne(gifs)+width=500px height=316px />");
+		let box = '<img src=' + Tools.sampleOne(gifs) + 'width=70% height=70%>'
+		this.sayHtml(box);
 	},
 	gifs: function (target, room, user) {
 		let database = getDatabase(room.id);

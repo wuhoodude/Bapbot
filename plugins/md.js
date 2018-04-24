@@ -27,7 +27,7 @@ function getDatabase(room) {
 	let database = Storage.getDatabase(room);
 	if (!database.roasts) database.roasts = [];
 	if (!database.roastbans) database.roastbans = [];
-	if (!database.bapbans) database.bapbans = [];
+	if (!database.gifs) database.gifs = [];
 	return database;
 }
 
@@ -154,6 +154,53 @@ let commands = {
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		this.pm(user, "**BAP**");
 		this.say("Get bapped on. You cannot bap people");
+	},
+	//gifs That Bot can show 
+	addgif: function (target, room, user) {
+		if (room instanceof Users.User) return;
+		let database = getDatabase(room.id);
+		target = target.trim();
+		if (!target) return this.say("Please use the following format: .addgif gif");
+		let gif = database.gif;
+		let index = gifs.findIndex(/**@param {string} gif */ gif => Tools.toId(gif) === Tools.toId(target));
+		if (index >= 0) return this.say("That gif already exists.");
+		gifs.push(target);
+		Storage.exportDatabase(room.id);
+		this.say("Your gif was successfully added.");
+	},
+	removegif: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return this.say("You are not allowed to use gif commands");
+		target = target.trim();
+		if (!target) return this.say("Correct syntax: ``.removegif gif``");
+		let gifs = database.gifs;
+		let index = gifs.findIndex(/**@param {string} gif */ gif => Tools.toId(gif) === Tools.toId(target));
+		if (index < 0) return this.say("Your gif doesn't exist in the database.");
+		gifs.splice(index, 1);
+		Storage.exportDatabase(room.id);
+		this.say("Your gif was successfully removed.");
+	},
+	randgif: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let gifs = getDatabase(room.id).gif;
+		if (!gifs.length) return this.say("This room doesn't have any gifs.");
+		this.say(Tools.sampleOne(gifs));
+	},
+	gifs: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let gifs = database.gifs;
+		if (!gifs.length) return this.say("This room doesn't have any gifs.");
+		let prettifiedQuotes = "gifs for " + room.id + ":\n\n" + gifs.map(
+			/**
+			 * @param {string} gif
+			 * @param {number} index
+			 */
+			(gif, index) => (index + 1) + ": " + gif
+		).join("\n");
+		Tools.uploadToHastebin(prettifiedQuotes, /**@param {string} hastebinUrl */ hastebinUrl => {
+			this.say("gifs: " + hastebinUrl);
+		});
 	},
 	bop: function (target, room, user) {
 		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");

@@ -160,7 +160,7 @@ let commands = {
 		if (room instanceof Users.User) return;
 		let database = getDatabase(room.id);
 		target = target.trim();
-		if (!target) return this.say("Please use the following format: .addgif gif");
+		if (!target) return this.say("Please use the following format: .addgif giflink");
 		let gifs = database.gifs;
 		let index = gifs.findIndex(/**@param {string} gif */ gif => Tools.toId(gif) === Tools.toId(target));
 		if (index >= 0) return this.say("That gif already exists.");
@@ -172,7 +172,7 @@ let commands = {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return this.say("You are not allowed to use gif commands");
 		target = target.trim();
-		if (!target) return this.say("Correct syntax: ``.removegif gif``");
+		if (!target) return this.say("Correct syntax: ``.removegif giflink``");
 		let gifs = database.gifs;
 		let index = gifs.findIndex(/**@param {string} gif */ gif => Tools.toId(gif) === Tools.toId(target));
 		if (index < 0) return this.say("Your gif doesn't exist in the database.");

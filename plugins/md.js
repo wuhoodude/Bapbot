@@ -137,8 +137,8 @@ let commands = {
 	// Fun commands
 	bap: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		if (!target) return this.say("BAP");
-		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say(" ~~BAP~~");
+		if (!target) return this.say("BAP");	
+		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("~~BAP~~");
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
 		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say(" __BAP__");
 		if (['^', '^^', 'carrot', 'superscript'].includes(target)) return this.say("^^BAP^^");
@@ -152,8 +152,19 @@ let commands = {
 		if (['w', 'wall'].includes(target)) return this.say("/wall BAP");
 		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
+		if (['4', '5', '6', '7','8','9','10'].includes(target)) return this.say("The maxium baps per bap is 3");
+		if (['2','3'].includes(target)) for(var i=0; i<target; i++) {this.say("BAP")} return;
 		this.pm(user, "**BAP**");
-		this.say("Get bapped on. You cannot bap people");
+		return this.say("Get bapped on. You cannot bap people");
+		
+		
+		
+	
+	},
+	math: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		this.say("!dice 100+100");
+		this.say("!dice 6d13");
 	},
 	//gifs That Bot can show 
 	addgif: function (target, room, user) {
@@ -185,7 +196,7 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let gifs = getDatabase(room.id).gifs;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		let box = '<img src=' + Tools.sampleOne(gifs) + 'width=70% height=70%>'
+		let box = '<img src=' + Tools.sampleOne(gifs)+ 'width=50% height=50%>'
 		this.sayHtml(box);
 	},
 	gifs: function (target, room, user) {

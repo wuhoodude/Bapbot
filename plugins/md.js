@@ -159,7 +159,9 @@ let commands = {
 			}
 			return;
 		}
-		this.pm(user, "**BAP**");
+		for (var n = 0; n < 5 ; n++){
+			this.pmHtml(user, "<strong>BAP</strong>");
+		}
 		return this.say("Get bapped on. You cannot bap people");
 	},
 	math: function (target, room, user) {
@@ -239,6 +241,7 @@ let commands = {
 		this.say("/tour name MSPL");
 	},
 	// General commands
+	code:'git',
 	git: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");

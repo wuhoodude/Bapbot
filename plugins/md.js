@@ -155,8 +155,9 @@ let commands = {
 		if (Number.parseInt(target) > 3) return this.say("The maxium baps per bap is 3");
 		if (Number.parseInt(target) <= 3)  {
 			for (let i = 0; i < target; i++) {
-				return this.say("BAP");
+				this.say("BAP");
 			}
+			return;
 		}
 		this.pm(user, "**BAP**");
 		return this.say("Get bapped on. You cannot bap people");

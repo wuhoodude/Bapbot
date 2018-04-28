@@ -251,7 +251,7 @@ class MessageParser {
 				break;
 			case 'battlestart':
 				if (room.tour && !room.tour.isRoundRobin && room.tour.generator === 1 && room.tour.getRemainingPlayerCount() === 2) {
-					room.say("/wall Final battle of " + room.tour.format.name + " tournament: <<" + splitMessage[3].trim() + ">>");
+					room.say("Final battle of " + room.tour.format.name + " tournament: <<" + splitMessage[3].trim() + ">>");
 				}
 				break;
 			}

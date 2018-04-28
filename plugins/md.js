@@ -200,7 +200,7 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let gifs = getDatabase(room.id).gifs;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		let box = '<img src=' + Tools.sampleOne(gifs)+ 'width=50% height=50%>'
+		let box = '<img src=' + Tools.sampleOne(gifs)+ 'width=60% height=50%>'
 		this.sayHtml(box);
 	},
 	gifs: function (target, room, user) {
@@ -242,7 +242,7 @@ let commands = {
 		this.say("/tour name MSPL");
 	},
 	// General commands
-	code:'git',
+	'code':'git', 'bapcode':'git',
 	git: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");

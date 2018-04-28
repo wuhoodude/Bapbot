@@ -21,5 +21,14 @@ exports.Bap = {
 		desc: "bup",
 		name: "bup"
 	},
+	"byp": {
+		desc: "byp",
+		name: "byp"
+	},
+	"lunch": {
+		desc: "lunch",
+		name: "lunch"
+	},
+	
 
 };

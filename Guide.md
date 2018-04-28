@@ -23,7 +23,13 @@
 
 ### @ and Dev only
 ``.bop [user]``-Mutes, clears text and unmutes a user<br>
-## Uno
+## Games 
+### Bap 
+Description: See who can bap the fastest. 
+When Bapbot says a word, whoever types ``.g [word]`` first gets a point
+``.game bap`` to start a bap game
+``.end`` if there is a game to end it
+### Uno
 ``.uno``-Creates an uno game<br>
 ``.uno start``-starts uno<br>
 ``.uno end``-ends uno<br>

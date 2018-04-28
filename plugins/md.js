@@ -152,17 +152,18 @@ let commands = {
 		if (['w', 'wall'].includes(target)) return this.say("/wall BAP");
 		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
-		if (Number.parseInt(target) > 3) return this.say("The maxium baps per bap is 3");
+		if (Number.parseInt(target) > 3) return this.say("The maximum baps per bap is 3");
 		if (Number.parseInt(target) <= 3)  {
 			for (let i = 0; i < target; i++) {
 				this.say("BAP");
 			}
 			return;
 		}
+		this.say("It's a BAP!!");
 		for (var n = 0; n < 5 ; n++){
-			this.pmHtml(user, "<strong>BAP</strong>");
+			this.pmHtml(user, '<div style="color:#eeeeee;background-color:#003399;font-size:20px;overflow: visible;"><marquee behavior="alternate"<b>YOU ACTIVATED MY BAP CARD</b></marquee></div>');
 		}
-		return this.say("Get bapped on. You cannot bap people");
+	
 	},
 	math: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;

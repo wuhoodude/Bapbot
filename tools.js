@@ -108,6 +108,7 @@ class Tools {
 		this.loadFormatsData();
 		this.loadTeams();
 		this.loadTrainerClasses();
+		this.loadBap();
 
 		this.loadedData = true;
 	}
@@ -153,6 +154,19 @@ class Tools {
 		}
 		if (items) this.data.items = items;
 	}
+	loadBap() {
+
+		let bap;
+		try {
+			bap = require(this.dataFilePath + 'bap.js').Bap;
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND') {
+				throw e;
+			}
+		}
+		if (bap) this.data.bap = bap;
+	}
+
 
 	loadAbilities() {
 		if (this.loadedData) this.AbilityCache.clear();

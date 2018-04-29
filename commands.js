@@ -79,7 +79,7 @@ let commands = {
 	game: function (target, room, user) {
 		if (room instanceof Users.User) return;
 		if (!user.hasRank(room, '+')) return;
-		if (!Config.games || !Config.games.includes(room.id)) return this.say("Games are not enabled for this room.");
+		if (!Config.games || !Config.games.includes(room.id)) return this.say("~~Supreme Leader~~ #Cam.: I mean I may be a buzzkill but i just don't want bot games going on");
 		let format = Games.getFormat(target);
 		if (!format || format.inheritOnly) return this.say("The game '" + target + "' was not found.");
 		if (format.internal) return this.say(format.name + " cannot be started manually.");
@@ -159,6 +159,12 @@ let commands = {
 				break;
 			case 'start':
 				this.say("/tour start");
+				break;
+			case 'pov':
+				this.say("/tour new gen7uu,elim");
+				this.say("/tour rules -aggron-mega, -moltres, -snorlax, -hidden power, -regenerator");
+				this.say("/tour rules autostart 1");
+				this.say("/wall This is a Povertymons tour!");
 				break;
 			default:
 				format = Tools.getFormat(cmd);

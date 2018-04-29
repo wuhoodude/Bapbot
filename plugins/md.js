@@ -82,7 +82,7 @@ let commands = {
 		let roasts = database.roasts;
 		let index = roasts.findIndex(/**@param {string} roast */ roast => Tools.toId(roast) === Tools.toId(target));
 		if (index >= 0) return this.say("That roast already exists.");
-		if (!target.includes('{user}')) return this.say("Your roast doesn't have the characters ``{user}`` in it. (``{}`` is used to locate where the target username goes when you use ``.roast {user}``)");
+		if (!target.includes('{user}')) return this.say("Your roast doesn't have the characters ``{user}`` in it. (``{user}`` is used to locate where the target username goes when you use ``.roast {user}``)");
 		if (target[0] === '/') return this.say("Roasts aren't allowed to start with slashes.");
 		for (const letter of target.replace(' ', '')) {
 			if (target[target.indexOf(letter) + 1] === letter &&
@@ -200,7 +200,7 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let gifs = getDatabase(room.id).gifs;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		let box = '<img src=' + Tools.sampleOne(gifs)+ 'width=60% height=50%>'
+		let box = '<img src=' + Tools.sampleOne(gifs) + ' width=60% height=50% />';
 		this.sayHtml(box);
 	},
 	gifs: function (target, room, user) {

@@ -214,6 +214,7 @@ let commands = {
 	//gifs That Bot can show 
 	addgif: function (target, room, user) {
 		if (room instanceof Users.User) return;
+		if (!target.trim().toLowerCase().endsWith('.gif')) return this.say("Please provide a gif");
 		let database = getDatabase(room.id);
 		target = target.trim();
 		if (!target) return this.say("Please use the following format: .addgif giflink");
@@ -223,6 +224,7 @@ let commands = {
 		gifs.push(target);
 		Storage.exportDatabase(room.id);
 		this.say("Your gif was successfully added.");
+		
 	},
 	removegif: function (target, room, user) {
 		let database = getDatabase(room.id);
@@ -238,6 +240,7 @@ let commands = {
 	},
 	link: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		if (!target.trim().toLowerCase().endsWith('.gif') && !target.trim().toLowerCase().endsWith('.jpg')) return this.say("Please provide an image or gif (url must end in .gif or .jpg)");
 		let link = '<img src=' + target + ' width=50% height=40% />';
 		this.sayHtml(link);
 	},

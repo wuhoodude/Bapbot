@@ -28,6 +28,7 @@ function getDatabase(room) {
 	if (!database.roasts) database.roasts = [];
 	if (!database.roastbans) database.roastbans = [];
 	if (!database.gifs) database.gifs = [];
+	if (!database.bapbans) database.bapbans = [];
 	return database;
 }
 
@@ -136,7 +137,7 @@ let commands = {
 	},
 	// Fun commands
 	bap: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (!target) return this.say("BAP");	
 		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("~~BAP~~");
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
@@ -164,6 +165,46 @@ let commands = {
 			this.pmHtml(user, '<div style="color:#eeeeee;background-color:#003399;font-size:20px;overflow: visible;"><marquee behavior="alternate"<b>YOU ACTIVATED MY BAP CARD</b></marquee></div>');
 		}
 	
+	},
+	bapban: function (target, room, user) {
+		if (room instanceof Users.User || !canRoastban(user, room)) return;
+		let database = getDatabase(room.id);
+		target = target.trim();
+		if (!target) return this.say("Correct syntax: ``.bapban username``");
+		if (Tools.toId(target) === user.id && canRoastban(user, room)) return;
+		let bapbans = database.bapbans;
+		let index = bapbans.findIndex(/**@param {string} roastban */ bapban => Tools.toId(bapban) === Tools.toId(target));
+		if (index >= 0) return this.say("That user is already banned from bapping.");
+		bapbans.push(target);
+		Storage.exportDatabase(room.id);
+		this.say("" + target + " was successfully banned from using bapping.");
+	},
+	bapunban: function (target, room, user) {
+		if (room instanceof Users.User || !canRoastban(user, room)) return;
+		let database = getDatabase(room.id);
+		target = target.trim();
+		if (!target) return this.say("Correct syntax: ``.bapunban username``");
+		let bapbans = database.bapbans;
+		let index = bapbans.findIndex(/**@param {string} bapban */ bapban => Tools.toId(bapban) === Tools.toId(target));
+		if (index < 0) return this.say("That user is already unbanned from bapping.");
+		bapbans.splice(index, 1);
+		Storage.exportDatabase(room.id);
+		this.say("" + target + " was successfully unbanned from bapping.");
+	},
+	bapbans: function (target, room, user) {
+		if (room instanceof Users.User || !canRoastban(user, room)) return;
+		let bapbans = getDatabase(room.id).bapbans;
+		if (!bapbans.length) return this.pm(user, "Room '" + room.id + "' doesn't have any bapbans.");
+		let prettifiedQuotes = "Bapbans for '" + room.id + "':\n\n" + bapbans.map(
+			/**
+			 * @param {string} roastban
+			 * @param {number} index
+			 */
+			(bapban, index) => (index + 1) + ": " + bapban
+		).join("\n");
+		Tools.uploadToHastebin(prettifiedQuotes, /**@param {string} hastebinUrl */ hastebinUrl => {
+			this.pm(user, "Bapbans: " + hastebinUrl);
+		});
 	},
 	math: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
@@ -195,12 +236,17 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your gif was successfully removed.");
 	},
+	link: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let link = '<img src=' + target + ' width=50% height=40% />';
+		this.sayHtml(link);
+	},
 	randgif: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let gifs = getDatabase(room.id).gifs;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		let box = '<img src=' + Tools.sampleOne(gifs) + ' width=60% height=50% />';
+		let box = '<img src=' + Tools.sampleOne(gifs) + ' width=70% height=60% />';
 		this.sayHtml(box);
 	},
 	gifs: function (target, room, user) {

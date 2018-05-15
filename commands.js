@@ -31,13 +31,18 @@ let commands = {
 
 	// UNO commands
 	uno: function (target, room, user) {
-		if (target === 'end') return this.say('/uno end');
-		if (target === 'start') return this.say('/uno start');
 		if (!target) return this.say('/uno create');
 	},
+	unostart: function (target, room, user) {
+		if (!target) return this.say('/uno start');
+	},
+	unoend: function (target, room, user) {
+		 if (!target) return this.say('/uno end');
+	},
+	
 	unohelp: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		this.say("To create: ``.uno`` To start: ``.uno start`` To end: ``.uno end``");
+		this.say("To create: ``.uno`` To start: ``.unostart`` To end: ``.unoend``");
 	},
 	//General Commands
 	about: function (target, room, user) {

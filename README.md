@@ -31,8 +31,8 @@ When Bapbot says a word, whoever types ``.g [word]`` first gets a point
 ``.end`` if there is a game to end it
 ### Uno
 ``.uno``-Creates an uno game<br>
-``.uno start``-starts uno<br>
-``.uno end``-ends uno<br>
+``.unostart``-starts uno<br>
+``.unoend``-ends uno<br>
 ## Quotes 
 `.addquote [quote]` - adds quotes to the database<br>
 `.removequote [quotes]` OR `.deletequote [quote]` -  deletes quotes from the database<br>

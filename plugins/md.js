@@ -137,6 +137,7 @@ let commands = {
 	},
 	// Fun commands
 	bap: function (target, room, user) {
+		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (!target) return this.say("BAP");	
 		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("~~BAP~~");
@@ -177,7 +178,7 @@ let commands = {
 		if (index >= 0) return this.say("That user is already banned from bapping.");
 		bapbans.push(target);
 		Storage.exportDatabase(room.id);
-		this.say("" + target + " was successfully banned from using bapping.");
+		this.say("" + target + " was successfully banned from bapping.");
 	},
 	bapunban: function (target, room, user) {
 		if (room instanceof Users.User || !canRoastban(user, room)) return;
@@ -189,7 +190,7 @@ let commands = {
 		if (index < 0) return this.say("That user is already unbanned from bapping.");
 		bapbans.splice(index, 1);
 		Storage.exportDatabase(room.id);
-		this.say("" + target + " was successfully unbanned from bapping.");
+		this.say("" + target + " can bap now.");
 	},
 	bapbans: function (target, room, user) {
 		if (room instanceof Users.User || !canRoastban(user, room)) return;

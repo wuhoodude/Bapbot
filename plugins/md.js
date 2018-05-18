@@ -161,7 +161,7 @@ let commands = {
 			}
 			return;
 		}
-		this.say("It's a BAP!!");
+		this.say("It's a ~~TRAP~~ BAP!!");
 		for (var n = 0; n < 5 ; n++){
 			this.pmHtml(user, '<div style="color:#eeeeee;background-color:#003399;font-size:20px;overflow: visible;"><marquee behavior="alternate"<b>YOU ACTIVATED MY BAP CARD</b></marquee></div>');
 		}

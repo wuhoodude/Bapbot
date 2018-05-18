@@ -3,6 +3,11 @@
 ## General
 ``.help``-Links to this guide<br>
 ``.git``-Links the code for Bapbot<br>
+``.link [gif or img]``- shows the gif or image in the chat
+## Gifs
+``.addgif`` [gif link]- adds a gif to the database
+``.randgif`` - shows a random gif
+
 #### Bap
 ``.bap``-Bapbot says bap in the chat<br>
 `` .bap ~`` ``.bap ~~`` ``.bap crossout`` ``.bap strikethrough`` ~~bap~~<br>

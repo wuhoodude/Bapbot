@@ -275,6 +275,12 @@ let commands = {
 		this.say("/mute " + target + ",bap");
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);
+		if (Tools.toId(target) === 'bapbot') 
+		{
+			this.say("/mute" + user + ",bap"); 
+			this.say("/hidetext " + user);
+			this.say("/unmute" + user);
+		}
 	},
 	//Tour Commands
 	pov: function (target, room, user) {

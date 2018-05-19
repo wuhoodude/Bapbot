@@ -272,14 +272,22 @@ let commands = {
 	bop: function (target, room, user) {
 		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");
 		if (!target) return this.say("``.bop user`` to bop");
+		if (Tools.toId(target) === 'wuhoodude') {
+			this.say('/mute ' + user.id + ",bap");
+			this.say("/hidetext " + user.id);
+			this.say("/unmute " + user.id);
+			this.say("You no bop daddy");
+			return;
+		}
 		this.say("/mute " + target + ",bap");
 		this.say("/hidetext " + target);
 		this.say("/unmute " + target);
-		if (Tools.toId(target) === 'bapbot') 
-		{
-			this.say("/mute" + user + ",bap"); 
-			this.say("/hidetext " + user);
-			this.say("/unmute" + user);
+		if (Tools.toId(target) === 'bapbot') {
+			this.say('/mute ' + user.id + ",bap");
+			this.say("/hidetext " + user.id);
+			this.say("/unmute " + user.id);
+			this.say("Get Bopped");
+			return;
 		}
 	},
 	//Tour Commands

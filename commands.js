@@ -51,6 +51,10 @@ let commands = {
 	},
 	help: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		this.say("use``.baphelp`` to bring up guide");
+	},
+	baphelp: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return; 
 		if (!Config.guide) return this.say("There is no guide available.");
 		this.say(Users.self.name + " guide: " + Config.guide);
 	},
@@ -139,7 +143,7 @@ let commands = {
 	},
 
 	// Tournament commands
-	tour: 'tournament',
+	baptour: 'tournament',
 	tournament: function (target, room, user) {
 		if (room instanceof Users.User || !Config.tournaments || !Config.tournaments.includes(room.id)) return;
 		if (!target) {

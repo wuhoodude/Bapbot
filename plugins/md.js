@@ -79,7 +79,7 @@ let commands = {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return this.say("You are not allowed to use roast commands");
 		target = target.trim();
-		if (!target) return this.say("Correct syntax: ``.addroast roast``");
+		if (!target) return this.say("Use ``.addroast roast``and make sure you include {user} where an intended name would go");
 		let roasts = database.roasts;
 		let index = roasts.findIndex(/**@param {string} roast */ roast => Tools.toId(roast) === Tools.toId(target));
 		if (index >= 0) return this.say("That roast already exists.");
@@ -140,6 +140,7 @@ let commands = {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (!target) return this.say("BAP");	
+		if (Tools.toId(user) === 'Moltracer') return this.say("Get rekt Moltracer");
 		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("~~BAP~~");
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
 		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say(" __BAP__");
@@ -154,6 +155,7 @@ let commands = {
 		if (['w', 'wall'].includes(target)) return this.say("/wall BAP");
 		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
+		if (['disappear', 'invisible','magic'].includes(target)) return this.say("[[]]");
 		if (Number.parseInt(target) > 3) return this.say("The maximum baps per bap is 3");
 		if (Number.parseInt(target) <= 3)  {
 			for (let i = 0; i < target; i++) {
@@ -287,6 +289,7 @@ let commands = {
 			this.say("/hidetext " + user.id);
 			this.say("/unmute " + user.id);
 			this.say("Get Bopped");
+		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
 			return;
 		}
 	},

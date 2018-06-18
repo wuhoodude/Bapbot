@@ -48,6 +48,12 @@ When Bapbot says a word, whoever types ``.g [word]`` first gets a point
 ``.removeroast [roast]``-Deletes roast from the database<br>
 ``.roast [user]``- Roasts a user<br>
 ``.roasts``-Shows the room's roasts<br>
+## Pickup lines
+``.addpickup [pickup]``-Adds pickup liness to the database<br>
+``.removepickup [pickup]``-Deletes pickup from the database<br>
+``.pickup [user]``- Mentions a user in a pickup line<br>
+``.pickups``or ``.pickuplines``s-Shows the room's pickup lines<br>
+
 ### RO and Developers Only<br>
 ``.roastban user``-Bans user from using roast commands<br>
 ``.roastunban user``-Unbans user from the roast banlist<br>

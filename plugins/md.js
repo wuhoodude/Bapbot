@@ -29,6 +29,7 @@ function getDatabase(room) {
 	if (!database.roastbans) database.roastbans = [];
 	if (!database.gifs) database.gifs = [];
 	if (!database.bapbans) database.bapbans = [];
+	if (!database.pickups) database.pickups = [];
 	return database;
 }
 
@@ -135,12 +136,73 @@ let commands = {
 			this.say("Roasts: " + hastebinUrl);
 		});
 	},
+	//Pickup lines
+	addpickup: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		target = target.trim();
+		if (!target) return this.say("Use ``.addpickup pickup``and make sure you include {user} where an intended name would go");
+		let pickups = database.pickups;
+		let index = pickups.findIndex(/**@param {string} pickup */ pickup => Tools.toId(pickup) === Tools.toId(target));
+		if (index >= 0) return this.say("That pickup already exists.");
+		if (!target.includes('{user}')) return this.say("Your pickup doesn't have the characters ``{user}`` in it. (``{user}`` is used to locate where the target username goes when you use ``.pickup {user}``)");
+		if (target[0] === '/') return this.say("Pickup lines aren't allowed to start with slashes.");
+		for (const letter of target.replace(' ', '')) {
+			if (target[target.indexOf(letter) + 1] === letter &&
+				target[target.indexOf(letter) + 2] === letter &&
+				target[target.indexOf(letter) + 3] === letter) {
+				return this.say("Please don't put spam as a pickup.");
+			}
+		}
+		pickups.push(target);
+		Storage.exportDatabase(room.id);
+		this.say("Your pickup line was successfully added.");
+	},
+	removepickup: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		target = target.trim();
+		if (!target) return this.say("Correct syntax: ``.removepickup pickup``");
+		let pickups = database.pickups;
+		let index = pickups.findIndex(/**@param {string} pickup */ pickup => Tools.toId(pickup) === Tools.toId(target));
+		if (index < 0) return this.say("Your pickup line doesn't exist in the database.");
+		pickups.splice(index, 1);
+		Storage.exportDatabase(room.id);
+		this.say("Your pickup line was successfully removed.");
+	},
+	pickup: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		let pickups = database.pickups;
+		if (!pickups.length) return this.say("This room doesn't have any pickup lines.");
+		if (!target) return this.say("Correct syntax: ``.pickup username``");
+		if (target.length > 18) return this.say("Please use a real username.");
+		if (target[0] === '/') return this.say("Usernames aren't allowed to start with slashes.");
+		this.say(Tools.sampleOne(pickups).replace(/{user}/g, target));
+	},
+	'pickuplines':'pickups',
+	pickups: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let pickups = database.pickups;
+		if (!pickups.length) return this.say("This room doesn't have any pickup lines.");
+		let prettifiedQuotes = "Pickup lines for " + room.id + ":\n\n" + pickups.map(
+			/**
+			 * @param {string} pickup
+			 * @param {number} index
+			 */
+			(pickup, index) => (index + 1) + ": " + pickup
+		).join("\n");
+		Tools.uploadToHastebin(prettifiedQuotes, /**@param {string} hastebinUrl */ hastebinUrl => {
+			this.say("Pickup liness: " + hastebinUrl);
+		});
+	},
+
 	// Fun commands
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (!target) return this.say("BAP");	
-		if (Tools.toId(user) === 'Moltracer') return this.say("Get rekt Moltracer");
 		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("~~BAP~~");
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
 		if (['_', '__', 'emphasis', 'italic'].includes(target)) return this.say(" __BAP__");
@@ -243,7 +305,7 @@ let commands = {
 	},
 	link: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		if (!target.trim().toLowerCase().endsWith('.gif') && !target.trim().toLowerCase().endsWith('.jpg')) return this.say("Please provide an image or gif (url must end in .gif or .jpg)");
+		if (!target.trim().toLowerCase().endsWith('.gif') && !target.trim().toLowerCase().endsWith('.jpg')&& !target.trim().toLowerCase().endsWith('.png')) return this.say("Please provide an image or gif (url must end in .gif, .jpg or .png)");
 		let link = '<img src=' + target + ' width=50% height=40% />';
 		this.sayHtml(link);
 	},

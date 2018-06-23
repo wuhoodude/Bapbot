@@ -199,6 +199,25 @@ let commands = {
 	},
 
 	// Fun commands
+	delaybap: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
+		if (Number.parseInt(target) > 5) return this.say("The longest you can delay a bap is 5 seconds");
+		if (Number.parseInt(target) <= 5){
+			this.timeout = setTimeout(() => this.say("BAP"), target * 1000);
+			
+		}
+	},
+	autobap: function (target, room, user) {
+		let database = getDatabase(room.id);
+		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
+		if (Number.parseInt(target) > 60) return this.say("The greatest interval between baps is 60 min");
+		if (Number.parseInt(target) <= 60){
+			let autobap = setInterval(() => this.say("bap"), target * 60 * 1000);
+			return this.say("Autobap has been set to " + target + " min");
+		}
+		
+	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");

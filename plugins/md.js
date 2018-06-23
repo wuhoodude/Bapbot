@@ -216,7 +216,8 @@ let commands = {
 			let autobap = setInterval(() => this.say("bap"), target * 60 * 1000);
 			return this.say("Autobap has been set to " + target + " min");
 		}
-		
+		if (["off"].includes(target)) clearInterval(autobap);
+		return this.say("Autobap has been turned off");
 	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);

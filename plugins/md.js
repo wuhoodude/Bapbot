@@ -199,29 +199,43 @@ let commands = {
 	},
 
 	// Fun commands
+	"butt":"booty",
+	booty: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		var b = Math.floor(Math.random() * 4 ) + 1;
+		for (let i = 1; i < b; i++) {this.say(Tools.sampleOne(["butt", "booty"]));}
+	},
+	"mengyface":"mengy",
+	mengy: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		this.say("㋛ ");
+	},
 	delaybap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
-		if (Number.parseInt(target) > 5) return this.say("The longest you can delay a bap is 5 seconds");
-		if (Number.parseInt(target) <= 5){
-			this.timeout = setTimeout(() => this.say("BAP"), target * 1000);
-			
+		if (Number.parseInt(target) > 10) return this.say("The longest you can delay a bap is 5 seconds");
+		if (Number.parseInt(target) <= 10){
+			this.timeout = setTimeout(() => this.say("bap"), target * 1000);
+			return this.say("Your bap will arrive in " + target + " sec");
 		}
 	},
+	//Fix Off command
 	autobap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
+		if (Number.parseInt(target) < 1) return this.say("The bap interval must be at least 1 minute");
 		if (Number.parseInt(target) > 60) return this.say("The greatest interval between baps is 60 min");
 		if (Number.parseInt(target) <= 60){
-			let autobap = setInterval(() => this.say("bap"), target * 60 * 1000);
+			var autobap = setInterval(() => this.say("bap"), target * 60 * 1000);
 			return this.say("Autobap has been set to " + target + " min");
 		}
-		if (["off"].includes(target)) clearInterval(autobap);
-		return this.say("Autobap has been turned off");
+		if (["off"].includes(target)) {
+		clearInterval(autobap);
+		return this.say("Autobap has been turned off");}
 	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);
-		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
+		if (room instanceof Users.User || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (!target) return this.say("BAP");	
 		if (['~', '~~', 'crossout', 'strikethrough'].includes(target)) return this.say("~~BAP~~");
 		if (['*', '**', 'bold', 'strong'].includes(target)) return this.say(" **BAP**");
@@ -238,7 +252,7 @@ let commands = {
 		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		if (['disappear', 'invisible','magic'].includes(target)) return this.say("[[]]");
-		if (Number.parseInt(target) > 3) return this.say("The maximum baps per bap is 3");
+		if (Number.parseFloat(target) > 3.0) return this.say("The maximum baps per bap is 3");
 		if (Number.parseInt(target) <= 3)  {
 			for (let i = 0; i < target; i++) {
 				this.say("BAP");
@@ -396,6 +410,15 @@ let commands = {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");
 	},
+	joinroom: function (target, room, user) {
+		if (room instanceof Users.User || !canRoastban(user, room)) return;
+		this.say("/j " + target);
+	},
+	leaveroom: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '☆') && !user.isDeveloper) return;
+		this.say("/leave");
+	},
+	
 };
 
 exports.commands = commands;

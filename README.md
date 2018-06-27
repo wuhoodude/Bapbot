@@ -52,7 +52,9 @@ When Bapbot says a word, whoever types ``.g [word]`` first gets a point
 ``.addpickup [pickup]``-Adds pickup liness to the database<br>
 ``.removepickup [pickup]``-Deletes pickup from the database<br>
 ``.pickup [user]``- Mentions a user in a pickup line<br>
-``.pickups``or ``.pickuplines``s-Shows the room's pickup lines<br>
+``.pickups``or ``.pickuplines``-Shows the room's pickup lines<br>
+## Booty
+``.booty`` or ``.butt`` Bapbot will randomly say booty or butt for a random amount of times from 1 to 3
 
 ### RO and Developers Only<br>
 ``.roastban user``-Bans user from using roast commands<br>

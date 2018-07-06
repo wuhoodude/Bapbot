@@ -20,7 +20,7 @@ let commands = {
 	// Developer commands
 	js: 'eval',
 	eval: function (target, room, user) {
-		if (!user.isDeveloper()) return;
+		if (!user.isDeveloper()) return this.say("You must be a developer to use this command");
 		try {
 			target = eval(target);
 			this.say(JSON.stringify(target));
@@ -49,6 +49,7 @@ let commands = {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say(Config.username + " code by sirDonovan: https://github.com/sirDonovan/Cassius");
 	},
+	"baphelp":"help",
 	help: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return; 
 		if (!Config.guide) return this.say("There is no guide available.");

@@ -33,6 +33,7 @@ function getDatabase(room) {
 	return database;
 }
 
+
 /**@type {{[k: string]: Command | string}} */
 let commands = {
 	// Roasts
@@ -202,18 +203,18 @@ let commands = {
 	"butt":"booty",
 	booty: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		var b = Math.floor(Math.random() * 4 ) + 1;
-		for (let i = 1; i < b; i++) {this.say(Tools.sampleOne(["butt", "booty"]));}
+		var b = Math.floor((Math.random() * 3) + 1);
+		for (let i = 1; i <= b; i++) {this.say(Tools.sampleOne(["butt", "booty"]));}
 	},
 	"mengyface":"mengy",
 	mengy: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		this.say("㋛ ");
+		this.say("㋛");
 	},
 	delaybap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
-		if (Number.parseInt(target) > 10) return this.say("The longest you can delay a bap is 5 seconds");
+		if (Number.parseInt(target) > 10) return this.say("The longest you can delay a bap is 10 seconds");
 		if (Number.parseInt(target) <= 10){
 			this.timeout = setTimeout(() => this.say("bap"), target * 1000);
 			return this.say("Your bap will arrive in " + target + " sec");
@@ -222,16 +223,19 @@ let commands = {
 	//Fix Off command
 	autobap: function (target, room, user) {
 		let database = getDatabase(room.id);
+		this.bapTimer = {};
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (Number.parseInt(target) < 1) return this.say("The bap interval must be at least 1 minute");
-		if (Number.parseInt(target) > 60) return this.say("The greatest interval between baps is 60 min");
-		if (Number.parseInt(target) <= 60){
-			var autobap = setInterval(() => this.say("bap"), target * 60 * 1000);
+		if (Number.parseFloat(target) > 60.0) return this.say("The greatest interval between baps is 60 min");
+		if (Number.parseFloat(target) <= 60.0){
+			if (room.id in this.bapTimer) clearInterval(this.bapTimer[room.id]);
+			this.bapTimer[room.id] = setInterval(() => this.say("bap"), target * 60 * 1000);
 			return this.say("Autobap has been set to " + target + " min");
 		}
 		if (["off"].includes(target)) {
-		clearInterval(autobap);
-		return this.say("Autobap has been turned off");}
+		if (!(room.id in this.bapTimer)) return this.say("Autobap is already off");
+		clearInterval(this.bapTimer);
+		this.say("Autobap has been turned off");}
 	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);

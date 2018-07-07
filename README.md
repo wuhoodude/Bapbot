@@ -20,9 +20,9 @@
 ``.bap /`` ``.bap roleplay`` ``.bap me`` ``.bap /me`` • *Bapbot BAPS<br>
 ``.bap :`` ``.bap spoil`` ``.bap spoiler`` <spoiler>BAP</spoiler><br>
 ``.bap [`` ``.bap[[`` ``.bap link`` <a href="https://www.google.com/search?safe=strict&client=firefox-b-1&ei=o_jSWsXCG4XetQWHnae4CQ&q=BAP&oq=BAP&gs_l=psy-ab.12...0.0.0.13044.0.0.0.0.0.0.0.0..0.0....0...1c..64.psy-ab..0.0.0....0.mqkv_1bsQHg">BAP</a><br>
-``.autobap number`` - Turns on autobap to bap a set interval
-``.autobap off`` - Turns off autobap
-``.currentautobap`` - Shows the current bap interval 
+``.autobap number`` - Turns on autobap to bap a set interval<br>
+``.autobap off`` - Turns off autobap<br>
+``.currentautobap`` - Shows the current bap interval<br>
 
 
 

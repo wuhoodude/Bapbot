@@ -77,12 +77,12 @@ const commands = {
 		// TODO: Add code for verifying whether or not the user wants to overwrite the word instead of telling them to delete it
 		// first.
 		solution = solution.split(' ').map((s, i) => {
-        if (["a", "an", "the", "of"].includes(s) && i !== 0) {
-                return s.toLowerCase();
-        } else {
-                return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-        }
-}).join(' ');
+			if (["a", "an", "the", "of"].includes(s) && i !== 0) {
+				return s.toLowerCase();
+        }	else {
+				return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+			}
+		}).join(' ');
 		if (database.hangman[solution]) return this.say("Your word already exists in the database. Please delete the existing solution and reuse this command.");
 		let hint = split.slice(1).join(',').trim();
 		if (hint.length > 150) return this.say("Your hint cannot exceed 150 characters. (" + hint.length + "/150)");
@@ -115,7 +115,7 @@ const commands = {
 		let hangmanWords = database.hangman;
 		let randomSolution = Tools.sampleOne(Object.keys(hangmanWords));
 		this.say("/hangman new " + randomSolution + ", " + hangmanWords[randomSolution].hint);
-		this.say("/wall Use ``/guess [word] or [letter]`` to guess.")
+		this.say("/wall Use ``/guess [word] or [letter]`` to guess.");
 	},
 
 	viewhangman(target, room, user) {

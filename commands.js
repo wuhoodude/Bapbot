@@ -39,7 +39,6 @@ let commands = {
 	unoend: function (target, room, user) {
 		 if (!target) return this.say('/uno end');
 	},
-	
 	unohelp: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("To create: ``.uno`` To start: ``.unostart`` To end: ``.unoend``");
@@ -81,7 +80,6 @@ let commands = {
 	},
 
 	// Game commands
-	
 	game: function (target, room, user) {
 		if (room instanceof Users.User) return;
 		if (!user.hasRank(room, '+')) return;

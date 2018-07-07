@@ -10,7 +10,7 @@ const data = {"Bap": {}};
 const name = "Bap";
 const bap = Storage.getDatabase('bap');
 for (let i in Tools.data.bap) {
-	let bap = Tools.data.bap[i]
+	let bap = Tools.data.bap[i];
 	if (!bap.name) continue;
 	let desc = bap.desc || bap.shortDesc;
 	if (!desc) continue;

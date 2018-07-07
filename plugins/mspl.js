@@ -32,8 +32,9 @@ function getDatabase(room) {
 	if (!database.pickups) database.pickups = [];
 	return database;
 }
-
-
+let bapDelay = {};
+let bapTimer = {};
+let currentAutobap = 0;
 /**@type {{[k: string]: Command | string}} */
 let commands = {
 	// Roasts
@@ -216,32 +217,45 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
 		if (Number.parseInt(target) > 10) return this.say("The longest you can delay a bap is 10 seconds");
 		if (Number.parseInt(target) <= 10){
-			this.timeout = setTimeout(() => this.say("bap"), target * 1000);
+			if(bapDelay) clearTimeout(bapDelay);
+			bapDelay = setTimeout(() => this.say("bap"), target * 1000);
 			return this.say("Your bap will arrive in " + target + " sec");
 		}
 	},
-	//Fix Off command
 	autobap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
-		let bapTimer = {};
-		if (Number.parseInt(target) < 1) return this.say("The bap interval must be at least 1 minute");
-		if (Number.parseFloat(target) > 60.0) return this.say("The greatest interval between baps is 60 min");
+		if (Number.parseInt(target) < 5) return this.say("The bap interval must be at least 5 sec");
 		function startAutobap() {
-			if (room.id in bapTimer) clearInterval(bapTimer[room.id]);
-			bapTimer[room.id] = setInterval(() => room.say("bap"), target * 60 * 1000);
-			return room.say('Autobap has been set to ' + target + ' min');
+			if (bapTimer) clearInterval(bapTimer);
+			bapTimer = setInterval(() => {room.say("bap");}, target * 1000);
+			return room.say('Autobap has been set to ' + target + ' sec');
 		}
 		function stopAutobap() {
-			clearInterval(bapTimer[room.id]);
+			clearInterval(bapTimer);
 			return room.say('Autobap has been turned off');
 		}
 		if (Number.parseFloat(target) <= 60.0) {
 			startAutobap();
+			currentAutobap = target; 
 		}
-		if (['off'].includes(target)) {
+		if (['off'].includes(Tools.toId(target.trim()))) {
+			if (currentAutobap === 0) return room.say('Autobap is already off');
 			stopAutobap();	
+			currentAutobap = 0;
 		}
+		if (!target) {
+			room.say('Use ``.autobap number`` to start autobap');
+		}
+	},
+	currentautobap: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		if (currentAutobap === 0) {
+				return room.say('Autobap is currently off');
+			}
+			else {
+				return room.say("Autobap is currently set to " + currentAutobap + " sec");
+			}
 	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);

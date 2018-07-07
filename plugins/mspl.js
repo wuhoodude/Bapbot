@@ -207,10 +207,18 @@ let commands = {
 		var b = Math.floor((Math.random() * 3) + 1);
 		for (let i = 1; i <= b; i++) {this.say(Tools.sampleOne(["butt", "booty"]));}
 	},
-	"mengyface":"mengy",
+	"mengyface":"mengy","mengularity":"mengy",
 	mengy: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		this.say("㋛");
+	},
+	pak: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		this.say("/wall __ganern__");
+	},
+	euphonos: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		return this.say("/wall __When it's brown, it's cooked; when it's black, it's fucked!__"); 
 	},
 	delaybap: function (target, room, user) {
 		let database = getDatabase(room.id);
@@ -245,17 +253,13 @@ let commands = {
 			currentAutobap = 0;
 		}
 		if (!target) {
-			room.say('Use ``.autobap number`` to start autobap');
-		}
-	},
-	currentautobap: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
-		if (currentAutobap === 0) {
+			if (currentAutobap === 0) {
 				return room.say('Autobap is currently off');
 			}
 			else {
 				return room.say("Autobap is currently set to " + currentAutobap + " sec");
 			}
+		}
 	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);

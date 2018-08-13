@@ -29,6 +29,22 @@ exports.Bap = {
 		desc: "lunch",
 		name: "lunch"
 	},
+	"mengy": {
+		desc: "mengy",
+		name: "mengy"
+	},
+	"bapbap": {
+		desc: "bapbap",
+		name: "bapbap"
+	},
+	"lunchlunch": {
+		desc: "lunchlunch",
+		name: "lunchlunch"
+	},
+	"mengymengy": {
+		desc: "mengymengy",
+		name: "mengymengy"
+	},
 	
 
 };

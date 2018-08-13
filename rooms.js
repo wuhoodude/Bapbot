@@ -41,6 +41,10 @@ class Room {
 	onLeave(user) {
 		this.users.delete(user);
 		user.rooms.delete(this);
+		if (this.users.size === 1) {
+			this.say("Bap bap away");
+			this.say("/leave");
+		}
 	}
 
 	/**
@@ -79,6 +83,11 @@ class Room {
 		if (!skipNormalization) message = Tools.normalizeMessage(message, this);
 		if (!message) return;
 		Client.send(this.clientId + '|' + message);
+	}
+	saymspl(message, skipNormalization) {
+		if (!skipNormalization) message = Tools.normalizeMessage(message, this);
+		if (!message) return;
+		Client.send('mspl' + '|' + message);
 	}
 
 	/**

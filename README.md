@@ -10,6 +10,7 @@
 
 #### Bap
 ``.bap``-Bapbot says bap in the chat<br>
+``.bap person`` baps that person if they are in the room<br>
 `` .bap ~`` ``.bap ~~`` ``.bap crossout`` ``.bap strikethrough`` ~~bap~~<br>
 ``.bap *`` ``.bap **`` ``.bap bold`` ``.bap strong``  **BAP**<br>
 ``.bap _`` ``.bap __`` ``.bap emphasis`` ``.bap italic``   <i>BAP</i><br>
@@ -22,13 +23,14 @@
 ``.bap [`` ``.bap[[`` ``.bap link`` <a href="https://www.google.com/search?safe=strict&client=firefox-b-1&ei=o_jSWsXCG4XetQWHnae4CQ&q=BAP&oq=BAP&gs_l=psy-ab.12...0.0.0.13044.0.0.0.0.0.0.0.0..0.0....0...1c..64.psy-ab..0.0.0....0.mqkv_1bsQHg">BAP</a><br>
 ``.autobap number`` - Turns on autobap to bap a set interval<br>
 ``.autobap off`` - Turns off autobap<br>
-``.currentautobap`` - Shows the current bap interval<br>
-
-
+``.autobap`` - Shows the current bap interval<br>
 
 
 
 ### @ and Dev only
+``.mbop [user]``or ``.megabop [user]`` -roombans then unbans and invites a user<br>
+
+### % and Dev only
 ``.bop [user]``-Mutes, clears text and unmutes a user<br>
 ## Games 
 ### Bap 
@@ -57,7 +59,8 @@ When Bapbot says a word, whoever types ``.g [word]`` first gets a point
 ``.pickups``or ``.pickuplines``-Shows the room's pickup lines<br>
 ## Booty
 ``.booty`` or ``.butt`` Bapbot will randomly say booty or butt for a random amount of times from 1 to 3
-
+## Viv
+``.viv`` automatically generates a quote in the style of vivalospride's VR posts.
 ### RO and Developers Only<br>
 ``.roastban user``-Bans user from using roast commands<br>
 ``.roastunban user``-Unbans user from the roast banlist<br>

@@ -13,6 +13,9 @@ function canRoastban(user, room) {
 	return user.isDeveloper() || user.hasRank(room, '#');
 }
 function canBop(user, room) {
+	return user.isDeveloper() || user.hasRank(room, '%');
+}
+function canMegaBop(user, room) {
 	return user.isDeveloper() || user.hasRank(room, '@');
 }
 /**
@@ -112,18 +115,19 @@ let commands = {
 		this.say("Your roast was successfully removed.");
 	},
 	roast: function (target, room, user) {
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return this.say("You are not allowed to use roast commands");
 		let roasts = database.roasts;
 		if (!roasts.length) return this.say("This room doesn't have any roasts.");
 		if (!target) return this.say("Correct syntax: ``.roast username``");
 		if (Tools.toId(target) === 'bapbot') return this.say("YoU cAnNoT rOaSt Me");
 		if (target.length > 18) return this.say("Please use a real username.");
+		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
 		if (target[0] === '/') return this.say("Usernames aren't allowed to start with slashes.");
 		this.say(Tools.sampleOne(roasts).replace(/{user}/g, target));
 	},
 	roasts: function (target, room, user) {
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return;
 		let roasts = database.roasts;
 		if (!roasts.length) return this.say("This room doesn't have any roasts.");
@@ -140,7 +144,7 @@ let commands = {
 	},
 	//Pickup lines
 	addpickup: function (target, room, user) {
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		target = target.trim();
 		if (!target) return this.say("Use ``.addpickup pickup``and make sure you include {user} where an intended name would go");
@@ -161,7 +165,7 @@ let commands = {
 		this.say("Your pickup line was successfully added.");
 	},
 	removepickup: function (target, room, user) {
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		target = target.trim();
 		if (!target) return this.say("Correct syntax: ``.removepickup pickup``");
@@ -173,18 +177,19 @@ let commands = {
 		this.say("Your pickup line was successfully removed.");
 	},
 	pickup: function (target, room, user) {
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		let pickups = database.pickups;
 		if (!pickups.length) return this.say("This room doesn't have any pickup lines.");
 		if (!target) return this.say("Correct syntax: ``.pickup username``");
 		if (target.length > 18) return this.say("Please use a real username.");
+		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
 		if (target[0] === '/') return this.say("Usernames aren't allowed to start with slashes.");
 		this.say(Tools.sampleOne(pickups).replace(/{user}/g, target));
 	},
 	'pickuplines':'pickups',
 	pickups: function (target, room, user) {
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let pickups = database.pickups;
 		if (!pickups.length) return this.say("This room doesn't have any pickup lines.");
@@ -201,6 +206,10 @@ let commands = {
 	},
 
 	// Fun commands
+	ask: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		
+	},
 	"butt":"booty",
 	booty: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
@@ -210,12 +219,27 @@ let commands = {
 	"mengyface":"mengy","mengularity":"mengy",
 	mengy: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		this.say("㋛");
+		if (!target) return this.say("㋛");
+		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
+		this.pm(Tools.toId(target), "㋛");
+		this.say("mengy'd");
+		
 	},
 	pak: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		this.say("/wall __ganern__");
 	},
+	viv: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let part1 = ["deadass fax ","straight up ","literally ","Hey, wanna share some opinions now, ","Hola ","Aight so ","Aye, so ","woah hold up " , "Hey! " , "owo " , "Holy señor, ", "Uh this is a tech that's pretty neat to deal with a lot of stuff, ", "Aight so I'm not gonna lie I don't understand what the fuck this is doing as a discussion point. ", "I didn't wanna come back to this thread but I have come in to bring all the hate for this mon to a halt. " , "Hola mates, "];
+		let part2 = ["my man " , "this fuckin mon " , "" , "fuckin " , "ngl I hate playing this tier right now bc " , "yall should know " , "i've been laddering for literally days and " , "ima try to keep this short but " , "i know it looks like straight booty but " , "goatmon " , "if ur using webs like me, " , "deadass " , "I don't think this mon is like nuts or anything but " ,  "yes. I was the one who nommed this thing to get on the vr in the first place, and after that I didn't use it for a while, but "];
+		let part3 = ["nihi " , "araquanid " , "vileplume " , "honch " , "sheddy " , "shedinja " , "tsar " , "cm coba aka seiballion " , "fight-z nape " , "z-fight kommo w taunt " , "umbreon " , "z-snatch krook " , "sd scep " , "stakatakataka " , "babiri toge " , "cb goodra (yes i know) " , "flame body chandy " , "smeargle "];
+		let part4 = ["is straight busted wtf" , "is the fuckin paul pierce" , "is super fuckin annoying" , "is so fuckin splashable" , "is easily A-" , "is literally impossible to check" , "is a broken mon" , "can be plopped onto teams so fuckin easily" , "is actual goat" , "is legit unbeatable" , "does a lot of damage I promise"];
+		let part5 = [" do not schleep." , " ngl." , " im telling you." , " rn." , " omfl." , ", especially on webs." , ", fr we should all be grateful this mon exists." , ", and it even has decent bulk." , " wtf." , ", bet." , " owo." , ", yes it loses to scizor but thats not its role." , ". This mon can work as an amazing wallbreaker throughout the match." ,  ". This mon is disgusting and it deserves some respect on it's name." , ", please someone explain how this mon deserves to even be remotely close to being mentioned for a downgrade." ,  ", please raise the lad." , ". this mon is dope."];
+		let part6 = [" Anyway Lati matchup on this team is LOL so hf w/ that lmao." , " Not like anyone listens to my suggestions anyway HAHAHAHAAHAAHAHAA" , " the point is this mon gets a lot better post shifts" , " Anyway like this post pls I spent deadass 12 hours testing shit on ladder n_n" , " This mon is lit don't sleep pls thanks :D" , " shoutout to martha for making this." , " so yeah vote ban n_n" , " brb kms" , " I made a post a while back on this mon that didn't really pick up any traction, hopefully this one is different." , " please rank this mon... idc where, just rank it." , " I don't wanna have to put up with this shit while building." , " I haven't tried this mon out yet but I doubt it'd be too bad" , " Adaam can attest to how good this mon is rn." , ` Also, Hydreigon definitely doesn't "invalidate" it...` , " oh and it hurts like dicks, here's proof" , " Dw I have insomnia and literally don't sleep, I'll just hit u up if I see u online over the weekend." , " If anything it should be considered rising to S, I don't understand this at all u_u." , " Please someone explain how this mon deserves to even be remotely close to being mentioned for a downgrade rn." , " this mon has gotten significantly better in the past month or two, like seriously." , " Ik I've been praising this mon this whole time but I really do agree that this mon is mediocre rn in the meta." , " I agree that this mon is mediocre as shit rn, but I've used it a lot." , " don't send this mon to the shadow realm and definitely don't call it an unmon." , " Move it up lads."];
+		return this.say(Tools.sampleOne(part1)+Tools.sampleOne(part2)+Tools.sampleOne(part3)+Tools.sampleOne(part4)+Tools.sampleOne(part5)+Tools.sampleOne(part6));
+	},
+	'euph':'euphonos',
 	euphonos: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		return this.say("/wall __When it's brown, it's cooked; when it's black, it's fucked!__"); 
@@ -232,18 +256,19 @@ let commands = {
 	},
 	autobap: function (target, room, user) {
 		let database = getDatabase(room.id);
-		if (room instanceof Users.User || !user.hasRank(room, '+') || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
-		if (Number.parseInt(target) < 5) return this.say("The bap interval must be at least 5 sec");
+		if (room instanceof Users.User || database.bapbans.includes(Tools.toId(user)) || !user.isDeveloper) return this.say("You are not allowed to bap");
+		if (Number.parseFloat(target) < 3 ) return this.say("The bap interval must be at least 5 seconds");
+		if (Number.parseFloat(target) > 3600.0) return this.say("The maximum baps interval is 3600 seconds");
 		function startAutobap() {
 			if (bapTimer) clearInterval(bapTimer);
-			bapTimer = setInterval(() => {room.say("bap");}, target * 1000);
-			return room.say('Autobap has been set to ' + target + ' sec');
+			bapTimer = setInterval(() => {room.say(Tools.sampleOne(["bap", ,"bap.", "bap?", "bap!", '"bap"', "bapbap", "bapbap?", "bapbap!"]));}, target * 1000);
+			return room.say('Autobap has been set to ' + target + ' seconds');
 		}
 		function stopAutobap() {
 			clearInterval(bapTimer);
 			return room.say('Autobap has been turned off');
 		}
-		if (Number.parseFloat(target) <= 60.0) {
+		if (Number.parseFloat(target) <= 3600.0) {
 			startAutobap();
 			currentAutobap = target; 
 		}
@@ -257,7 +282,7 @@ let commands = {
 				return room.say('Autobap is currently off');
 			}
 			else {
-				return room.say("Autobap is currently set to " + currentAutobap + " sec");
+				return room.say("Autobap is currently set to " + currentAutobap + " seconds");
 			}
 		}
 	},
@@ -277,9 +302,10 @@ let commands = {
 		if ([':', 'spoil', 'spoiler'].includes(target)) return this.say("spoiler:BAP");
 		if (['[', '[[', 'link'].includes(target)) return this.say("[[BAP]]");
 		if (['w', 'wall'].includes(target)) return this.say("/wall BAP");
-		if (['bapbot'].includes(target)) return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
+		if (Tools.toId(target) === 'bapbot') return this.say("^^B^^\\\\a\\\\P \\\\b\\\\A^^p^^b\\\\o\\\\t");
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		if (['disappear', 'invisible','magic'].includes(target)) return this.say("[[]]");
+		if (['㋛'].includes(target)) return this.say("ⓑⓐⓟ");
 		if (Number.parseFloat(target) > 3.0) return this.say("The maximum baps per bap is 3");
 		if (Number.parseInt(target) <= 3)  {
 			for (let i = 0; i < target; i++) {
@@ -287,12 +313,27 @@ let commands = {
 			}
 			return;
 		}
-		this.say("It's a ~~TRAP~~ BAP!!");
-		for (var n = 0; n < 5 ; n++){
-			this.pmHtml(user, '<div style="color:#eeeeee;background-color:#003399;font-size:20px;overflow: visible;"><marquee behavior="alternate"<b>YOU ACTIVATED MY BAP CARD</b></marquee></div>');
-		}
+		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
+		this.pm(Tools.toId(target), "bap");
+		this.say("bapped");
 	
 	},
+	baproulette: function (target, room, user) {
+		if (room instanceof Users.User) return this.say("You have to use this in a room");
+		if (!target) return this.say(".baproulette [person1], [person2]...");
+		let options = target.split(',');
+		if (options.includes(Tools.toId("Bapbot"))) return this.say("I can't play baproulette");
+		options.push(user.id)
+		function checkName(options) {
+			return Tools.toId(options) in Users.users
+		}
+		if (options.every(checkName) === false) return this.say("Someone there isn't in the room");
+		let loser = options[Math.floor(Math.random() * options.length)].trim();
+		this.say("It's a ~~TRAP~~ BAP for " + loser + "!!");
+		for (var n = 0; n < 3 ; n++){
+			this.pmHtml(loser, '<div style="color:#eeeeee;background-color:#003399;font-size:20px;overflow: visible;"><marquee behavior="alternate"<b>YOU LOST</b></marquee></div>');
+		}
+	}, 
 	bapban: function (target, room, user) {
 		if (room instanceof Users.User || !canRoastban(user, room)) return;
 		let database = getDatabase(room.id);
@@ -334,9 +375,15 @@ let commands = {
 		});
 	},
 	math: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		if ((room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("!dice 100+100");
 		this.say("!dice 6d13");
+	},
+	hangman: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let randomAnswer = Tools.sampleOne(["a", "b"])
+		this.say("/hangman new " + randomAnswer + ",a OR b");
+		
 	},
 	//gifs That Bot can show 
 	addgif: function (target, room, user) {
@@ -350,6 +397,8 @@ let commands = {
 		if (index >= 0) return this.say("That gif already exists.");
 		gifs.push(target);
 		Storage.exportDatabase(room.id);
+		let link = '<img src=' + target + ' width=50% height=40% />';
+		this.sayHtml(link);
 		this.say("Your gif was successfully added.");
 		
 	},
@@ -368,7 +417,7 @@ let commands = {
 	link: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		if (!target.trim().toLowerCase().endsWith('.gif') && !target.trim().toLowerCase().endsWith('.jpg')&& !target.trim().toLowerCase().endsWith('.png')) return this.say("Please provide an image or gif (url must end in .gif, .jpg or .png)");
-		let link = '<img src=' + target + ' width=50% height=40% />';
+		let link = '<img src=' + target + ' width=70% height=60% />';
 		this.sayHtml(link);
 	},
 	randgif: function (target, room, user) {
@@ -396,7 +445,7 @@ let commands = {
 		});
 	},
 	bop: function (target, room, user) {
-		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ bop users");
+		if (room instanceof Users.User || !canBop(user, room)) return this.say("Git good you have to be % or dev to ~~ab00se~~ bop users");
 		if (!target) return this.say("``.bop user`` to bop");
 		if (Tools.toId(target) === 'wuhoodude') {
 			this.say('/mute ' + user.id + ",bap");
@@ -417,36 +466,109 @@ let commands = {
 			return;
 		}
 	},
-	//Tour Commands
-	pov: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return;
-		this.say("/tour new gen7uu,elim");
-		this.say("/tour rules -aggron-mega, -moltres, -snorlax, -hidden power, -regenerator");
-		this.say("/wall This is a Povertymons tour!");
+	'mbop':'megabop', 
+	megabop: function (target, room, user) {
+		if (room instanceof Users.User || !canMegaBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ Megabop users");
+		if (room.tour) return this.say("You can't do that during tours");
+		let roomId = room.id;
+		if (roomId.startsWith("battle")) return this.say("You can't do that in a battle");
+		if (!target) return this.say("``.bop user`` to bop");
+		if (Tools.toId(target) === 'wuhoodude') {
+			this.say('/rb ' + user.id + ",bap");
+			this.say("/unban " + user.id);
+			this.say("You no bop daddy");
+			this.say("/invite " + user.id);
+			return;
+		}
+		this.say("/rb " + target + ",bap");
+		this.say("/unban " + target);
+		this.say("/invite " + target);
+		if (Tools.toId(target) === 'bapbot') {
+			this.say("/rb " + user.id + ",bap");
+			this.say("/unban " + user.id);
+			this.say("/invite " + user.id);
+			this.say("Get Bopped");
+		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
+			return;
+		}
 	},
-	'mspl': 'sheddy',
-	sheddy: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '@')) return;
-		this.say("/tour new [Gen 6] Triples Custom Game, elim");
-		this.say("/tour rules -Abomasnow, -Abra, -Absol, -Accelgor, -Aegislash, -Aerodactyl, -Aggron, -Aipom, -Alakazam, -Alomomola, -Altaria, -Amaura, -Ambipom, -Amoonguss, -Ampharos, -Anorith, -Araquanid, -Arbok, -Arcanine, -Arceus, -Archen, -Archeops, -Ariados, -Armaldo, -Aromatisse, -Aron, -Articuno, -Audino, -Aurorus, -Avalugg, -Axew, -Azelf, -Azumarill, -Azurill, -Bagon, -Baltoy, -Banette, -Barbaracle, -Barboach, -Basculin, -Bastiodon, -Bayleef, -Beartic, -Beautifly, -Beedrill, -Beheeyem, -Bellossom, -Bellsprout, -Bergmite, -Bewear, -Bibarel, -Bidoof, -Binacle, -Bisharp, -Blacephalon, -Blastoise, -Blaziken, -Blissey, -Blitzle, -Boldore, -Bonsly, -Bouffalant, -Bounsweet, -Braixen, -Braviary, -Breloom, -Brionne, -Bronzong, -Bronzor, -Bruxish, -Budew, -Buizel, -Bulbasaur, -Buneary, -Bunnelby, -Burmy, -Butterfree, -Buzzwole, -Cacnea, -Cacturne, -Camerupt, -Carbink, -Carnivine, -Carracosta, -Carvanha, -Castform, -Celebi, -Celesteela, -Chandelure, -Chansey, -Charizard, -Charjabug, -Charmander, -Charmeleon, -Chatot, -Cherrim, -Cherubi, -Chesnaught, -Chespin, -Chikorita, -Chimchar, -Chimecho, -Chinchou, -Chingling, -Cinccino, -Clamperl, -Clauncher, -Clawitzer, -Claydol, -Clefable, -Clefairy, -Cleffa, -Cloyster, -Cobalion, -Cofagrigus, -Combusken, -Comfey, -Conkeldurr, -Corphish, -Corsola, -Cottonee, -Crabominable, -Crabrawler, -Cradily, -Cranidos, -Crawdaunt, -Cresselia, -Croagunk, -Crobat, -Croconaw, -Crustle, -Cryogonal, -Cubchoo, -Cubone, -Cutiefly, -Cyndaquil, -Darkrai, -Darmanitan, -Dartrix, -Darumaka, -Decidueye, -Dedenne, -Deerling, -Deino, -Delcatty, -Delibird, -Delphox, -Deoxys, -Dewgong, -Dewott, -Dewpider, -Dhelmise, -Dialga, -Diancie, -Diggersby, -Diglett, -Dodrio, -Doduo, -Donphan, -Doublade, -Dragalge, -Dragonair, -Dragonite, -Drampa, -Drapion, -Dratini, -Drifblim, -Drifloon, -Drilbur, -Drowzee, -Druddigon, -Ducklett, -Dugtrio, -Dunsparce, -Duosion, -Durant, -Dusclops, -Dusknoir, -Duskull, -Dustox, -Dwebble, -Eelektrik, -Eelektross, -Eevee, -Ekans, -Electabuzz, -Electivire, -Electrike, -Electrode, -Elekid, -Elgyem, -Emboar, -Emolga, -Empoleon, -Entei, -Escavalier, -Espeon, -Espurr, -Excadrill, -Exeggcute, -Exeggutor, -Exploud, -Farfetch'd, -Fearow, -Feebas, -Fennekin, -Feraligatr, -Ferroseed, -Ferrothorn, -Finneon, -Flaaffy, -Flabébé, -Flareon, -Fletchinder, -Fletchling, -Floatzel, -Floette, -Florges, -Flygon, -Fomantis, -Foongus, -Forretress, -Fraxure, -Frillish, -Froakie, -Frogadier, -Froslass, -Furfrou, -Furret, -Gabite, -Gallade, -Galvantula, -Garbodor, -Garchomp, -Gardevoir, -Gastly, -Gastrodon, -Genesect, -Gengar, -Geodude, -Gible, -Gigalith, -Girafarig, -Giratina, -Glaceon, -Glalie, -Glameow, -Gligar, -Gliscor, -Gloom, -Gogoat, -Golbat, -Goldeen, -Golduck, -Golem, -Golett, -Golisopod, -Golurk, -Goodra, -Goomy, -Gorebyss, -Gothita, -Gothitelle, -Gothorita, -Gourgeist, -Granbull, -Graveler, -Greninja, -Grimer, -Grotle, -Groudon, -Grovyle, -Growlithe, -Grubbin, -Grumpig, -Gulpin, -Gumshoos, -Gurdurr, -Guzzlord, -Gyarados, -Hakamo-o, -Happiny, -Hariyama, -Haunter, -Hawlucha, -Haxorus, -Heatmor, -Heatran, -Heliolisk, -Helioptile, -Heracross, -Herdier, -Hippopotas, -Hippowdon, -Hitmonchan, -Hitmonlee, -Hitmontop, -Ho-Oh, -Honchkrow, -Honedge, -Hoopa, -Hoothoot, -Hoppip, -Horsea, -Houndoom, -Houndour, -Huntail, -Hydreigon, -Hypno, -Igglybuff, -Illumise, -Incineroar, -Infernape, -Inkay, -Ivysaur, -Jangmo-o, -Jellicent, -Jigglypuff, -Jirachi, -Jolteon, -Joltik, -Jumpluff, -Jynx, -Kabuto, -Kabutops, -Kadabra, -Kangaskhan, -Karrablast, -Kartana, -Kecleon, -Keldeo, -Kingdra, -Kingler, -Kirlia, -Klang, -Klefki, -Klink, -Klinklang, -Koffing, -Komala, -Kommo-o, -Krabby, -Kricketune, -Krokorok, -Krookodile, -Kyogre, -Kyurem, -Lairon, -Lampent, -Landorus, -Lanturn, -Lapras, -Larvesta, -Larvitar, -Latias, -Latios, -Leafeon, -Leavanny, -Ledian, -Ledyba, -Lickilicky, -Lickitung, -Liepard, -Lileep, -Lilligant, -Lillipup, -Linoone, -Litleo, -Litten, -Litwick, -Lombre, -Lopunny, -Lotad, -Loudred, -Lucario, -Ludicolo, -Lugia, -Lumineon, -Lunala, -Lunatone, -Lurantis, -Luvdisc, -Luxio, -Luxray, -Lycanroc, -Machamp, -Machoke, -Machop, -Magby, -Magcargo, -Magearna, -Magmar, -Magmortar, -Magnemite, -Magneton, -Magnezone, -Makuhita, -Malamar, -Mamoswine, -Manaphy, -Mandibuzz, -Manectric, -Mankey, -Mantine, -Mantyke, -Maractus, -Mareanie, -Mareep, -Marill, -Marowak, -Marshadow, -Marshtomp, -Masquerain, -Mawile, -Medicham, -Meditite, -Meganium, -Meloetta, -Meowstic, -Meowth, -Mesprit, -Metagross, -Metang, -Mew, -Mewtwo, -Mienfoo, -Mienshao, -Mightyena, -Milotic, -Miltank, -Mime Jr., -Mimikyu, -Minccino, -Minior, -Minun, -Misdreavus, -Mismagius, -Moltres, -Monferno, -Morelull, -Mothim, -Mr. Mime, -Mudbray, -Mudkip, -Mudsdale, -Muk, -Munchlax, -Munna, -Murkrow, -Musharna, -Naganadel, -Natu, -Necrozma, -Nidoking, -Nidoqueen, -Nidoran-F, -Nidoran-M, -Nidorina, -Nidorino, -Nihilego, -Nincada, -Ninetales, -Ninjask, -Noctowl, -Noibat, -Noivern, -Nosepass, -Numel, -Nuzleaf, -Octillery, -Oddish, -Omanyte, -Omastar, -Onix, -Oranguru, -Oricorio, -Oshawott, -Pachirisu, -Palkia, -Palossand, -Palpitoad, -Pancham, -Pangoro, -Panpour, -Pansage, -Pansear, -Paras, -Parasect, -Passimian, -Patrat, -Pawniard, -Pelipper, -Persian, -Petilil, -Phanpy, -Phantump, -Pheromosa, -Phione, -Pichu, -Pidgeot, -Pidgeotto, -Pidgey, -Pidove, -Pignite, -Pikachu, -Pikipek, -Piloswine, -Pineco, -Pinsir, -Piplup, -Plusle, -Poipole, -Politoed, -Poliwag, -Poliwhirl, -Poliwrath, -Ponyta, -Poochyena, -Popplio, -Porygon, -Porygon-Z, -Porygon2, -Primarina, -Primeape, -Prinplup, -Probopass, -Psyduck, -Pumpkaboo, -Pupitar, -Purrloin, -Purugly, -Pyroar, -Pyukumuku, -Quagsire, -Quilava, -Quilladin, -Qwilfish, -Raichu, -Raikou, -Ralts, -Rampardos, -Rapidash, -Raticate, -Rattata, -Rayquaza, -Regice, -Regirock, -Registeel, -Relicanth, -Remoraid, -Reshiram, -Reuniclus, -Rhydon, -Rhyhorn, -Rhyperior, -Ribombee, -Riolu, -Rockruff, -Roggenrola, -Roselia, -Roserade, -Rotom, -Rowlet, -Rufflet, -Sableye, -Salamence, -Salandit, -Salazzle, -Samurott, -Sandile, -Sandshrew, -Sandslash, -Sandygast, -Sawk, -Sawsbuck, -Sceptile, -Scizor, -Scolipede, -Scrafty, -Scraggy, -Scyther, -Seadra, -Seaking, -Sealeo, -Seedot, -Seel, -Seismitoad, -Sentret, -Serperior, -Servine, -Seviper, -Sewaddle, -Sharpedo, -Shaymin, -Shelgon, -Shellder, -Shellos, -Shelmet, -Shieldon, -Shiftry, -Shiinotic, -Shinx, -Shroomish, -Shuckle, -Shuppet, -Sigilyph, -Silvally, -Simipour, -Simisage, -Simisear, -Skarmory, -Skiddo, -Skiploom, -Skitty, -Skorupi, -Skrelp, -Skuntank, -Slaking, -Slakoth, -Sliggoo, -Slowbro, -Slowking, -Slowpoke, -Slugma, -Slurpuff, -Smeargle, -Smoochum, -Sneasel, -Snivy, -Snorlax, -Snorunt, -Snover, -Snubbull, -Solgaleo, -Solosis, -Solrock, -Spearow, -Spewpa, -Spheal, -Spinarak, -Spinda, -Spiritomb, -Spoink, -Spritzee, -Squirtle, -Stakataka, -Stantler, -Staraptor, -Staravia, -Starly, -Starmie, -Staryu, -Steelix, -Steenee, -Stoutland, -Stufful, -Stunfisk, -Stunky, -Sudowoodo, -Suicune, -Sunflora, -Sunkern, -Surskit, -Swablu, -Swadloon, -Swalot, -Swampert, -Swanna, -Swellow, -Swinub, -Swirlix, -Swoobat, -Sylveon, -Taillow, -Talonflame, -Tangela, -Tangrowth, -Tapu Bulu, -Tapu Fini, -Tapu Koko, -Tapu Lele, -Tauros, -Teddiursa, -Tentacool, -Tentacruel, -Tepig, -Terrakion, -Throh, -Thundurus, -Timburr, -Tirtouga, -Togedemaru, -Togekiss, -Togepi, -Togetic, -Torchic, -Torkoal, -Tornadus, -Torracat, -Torterra, -Totodile, -Toucannon, -Toxapex, -Toxicroak, -Tranquill, -Trapinch, -Treecko, -Trevenant, -Tropius, -Trubbish, -Trumbeak, -Tsareena, -Turtonator, -Turtwig, -Tympole, -Type: Null, -Typhlosion, -Tyranitar, -Tyrantrum, -Tyrogue, -Tyrunt, -Umbreon, -Unfezant, -Ursaring, -Uxie, -Vanillish, -Vanillite, -Vanilluxe, -Vaporeon, -Venipede, -Venomoth, -Venonat, -Venusaur, -Vespiquen, -Vibrava, -Victini, -Victreebel, -Vigoroth, -Vikavolt, -Vileplume, -Virizion, -Vivillon, -Volbeat, -Volcanion, -Volcarona, -Voltorb, -Vullaby, -Vulpix, -Wailmer, -Wailord, -Walrein, -Wartortle, -Watchog, -Weavile, -Weepinbell, -Weezing, -Whimsicott, -Whirlipede, -Whiscash, -Whismur, -Wigglytuff, -Wimpod, -Wingull, -Wishiwashi, -Woobat, -Wooper, -Wormadam, -Xatu, -Xerneas, -Xurkitree, -Yamask, -Yanma, -Yanmega, -Yungoos, -Yveltal, -Zangoose, -Zapdos, -Zebstrika, -Zekrom, -Zigzagoon, -Zoroark, -Zorua, -Zubat, -Zweilous, -Zygarde, -Beldum, -Cascoon, -Caterpie, -Combee, -Cosmoem, -Cosmog, -Ditto, -Kakuna, -Kricketot, -Magikarp, -Metapod, -Regigigas, -Scatterbug, -Silcoon, -Tynamo, -Unown, -Weedle, -Wobbuffet, -Wurmple, -Wynaut, -Absorb, -Accelerock, -Acid, -Acid Armor, -Acid Downpour, -Acid Spray, -Acrobatics, -Aerial Ace, -Aeroblast, -Agility, -Air Cutter, -Air Slash, -All-Out Pummeling, -Ally Switch, -Amnesia, -Anchor Shot, -Ancient Power, -Aqua Jet, -Aqua Ring, -Aqua Tail, -Arm Thrust, -Aromatherapy, -Aromatic Mist, -Assurance, -Astonish, -Attack Order, -Aura Sphere, -Aurora Beam, -Aurora Veil, -Autotomize, -Avalanche, -Baby-Doll Eyes, -Baneful Bunker, -Barrier, -Beak Blast, -Beat Up, -Belch, -Bite, -Black Hole Eclipse, -Blast Burn, -Blaze Kick, -Blizzard, -Bloom Doom, -Blue Flare, -Bolt Strike, -Bone Club, -Bone Rush, -Bonemerang, -Bounce, -Brave Bird, -Brick Break, -Brine, -Brutal Swing, -Bubble, -Bubble Beam, -Bug Bite, -Bug Buzz, -Bulk Up, -Bulldoze, -Bullet Punch, -Bullet Seed, -Burn Up, -Calm Mind, -Catastropika, -Charge, -Charge Beam, -Charm, -Chatter, -Circle Throw, -Clamp, -Clanging Scales, -Clangorous Soulblaze, -Clear Smog, -Close Combat, -Coil, -Confuse Ray, -Confusion, -Continental Crush, -Core Enforcer, -Corkscrew Crash, -Cosmic Power, -Cotton Guard, -Cotton Spore, -Counter, -Crabhammer, -Crafty Shield, -Cross Chop, -Cross Poison, -Crunch, -Curse, -Dark Pulse, -Dark Void, -Darkest Lariat, -Dazzling Gleam, -Defend Order, -Defog, -Destiny Bond, -Detect, -Devastating Drake, -Diamond Storm, -Dig, -Disarming Voice, -Discharge, -Dive, -Doom Desire, -Double Kick, -Draco Meteor, -Dragon Ascent, -Dragon Breath, -Dragon Claw, -Dragon Dance, -Dragon Hammer, -Dragon Pulse, -Dragon Rage, -Dragon Rush, -Dragon Tail, -Drain Punch, -Draining Kiss, -Dream Eater, -Drill Peck, -Drill Run, -Dual Chop, -Dynamic Punch, -Earth Power, -Earthquake, -Eerie Impulse, -Electric Terrain, -Electrify, -Electro Ball, -Electroweb, -Embargo, -Ember, -Energy Ball, -Eruption, -Extrasensory, -Fairy Lock, -Fairy Wind, -Fake Tears, -Feather Dance, -Feint Attack, -Fell Stinger, -Fiery Dance, -Final Gambit, -Fire Blast, -Fire Fang, -Fire Lash, -Fire Pledge, -Fire Punch, -Fire Spin, -First Impression, -Fissure, -Flame Burst, -Flame Charge, -Flame Wheel, -Flamethrower, -Flare Blitz, -Flash Cannon, -Flatter, -Fleur Cannon, -Fling, -Floral Healing, -Flower Shield, -Fly, -Flying Press, -Focus Blast, -Focus Punch, -Force Palm, -Forest's Curse, -Foul Play, -Freeze Shock, -Freeze-Dry, -Frenzy Plant, -Frost Breath, -Fury Cutter, -Fusion Bolt, -Fusion Flare, -Future Sight, -Gastro Acid, -Gear Grind, -Gear Up, -Genesis Supernova, -Geomancy, -Giga Drain, -Gigavolt Havoc, -Glaciate, -Grass Knot, -Grass Pledge, -Grass Whistle, -Grassy Terrain, -Gravity, -Grudge, -Guard Split, -Guard Swap, -Guardian of Alola, -Gunk Shot, -Gust, -Gyro Ball, -Hail, -Hammer Arm, -Haze, -Head Smash, -Heal Block, -Heal Order, -Heal Pulse, -Healing Wish, -Heart Stamp, -Heart Swap, -Heat Crash, -Heat Wave, -Heavy Slam, -Hex, -Hidden Power Bug, -Hidden Power Dark, -Hidden Power Dragon, -Hidden Power Electric, -Hidden Power Fighting, -Hidden Power Fire, -Hidden Power Flying, -Hidden Power Ghost, -Hidden Power Grass, -Hidden Power Ground, -Hidden Power Ice, -Hidden Power Poison, -Hidden Power Psychic, -Hidden Power Rock, -Hidden Power Steel, -Hidden Power Water, -High Horsepower, -High Jump Kick, -Hone Claws, -Horn Leech, -Hurricane, -Hydro Cannon, -Hydro Pump, -Hydro Vortex, -Hyperspace Fury, -Hyperspace Hole, -Hypnosis, -Ice Ball, -Ice Beam, -Ice Burn, -Ice Fang, -Ice Hammer, -Ice Punch, -Ice Shard, -Icicle Crash, -Icicle Spear, -Icy Wind, -Imprison, -Incinerate, -Inferno, -Inferno Overdrive, -Infestation, -Ingrain, -Instruct, -Ion Deluge, -Iron Defense, -Iron Head, -Iron Tail, -Jump Kick, -Karate Chop, -Kinesis, -King's Shield, -Knock Off, -Land's Wrath, -Lava Plume, -Leaf Blade, -Leaf Storm, -Leaf Tornado, -Leafage, -Leech Life, -Leech Seed, -Let's Snuggle Forever, -Lick, -Light Screen, -Light That Burns the Sky, -Light of Ruin, -Liquidation, -Low Kick, -Low Sweep, -Lunar Dance, -Lunge, -Luster Purge, -Mach Punch, -Magic Coat, -Magic Room, -Magical Leaf, -Magma Storm, -Magnet Bomb, -Magnet Rise, -Magnetic Flux, -Magnitude, -Malicious Moonsault, -Mat Block, -Meditate, -Mega Drain, -Megahorn, -Memento, -Menacing Moonraze Maelstrom, -Metal Burst, -Metal Claw, -Metal Sound, -Meteor Mash, -Mind Blown, -Miracle Eye, -Mirror Coat, -Mirror Move, -Mirror Shot, -Mist, -Mist Ball, -Misty Terrain, -Moonblast, -Moongeist Beam, -Moonlight, -Mud Bomb, -Mud Shot, -Mud Sport, -Mud-Slap, -Muddy Water, -Mystical Fire, -Nasty Plot, -Nature's Madness, -Needle Arm, -Never-Ending Nightmare, -Night Daze, -Night Shade, -Night Slash, -Nightmare, -Nuzzle, -Oblivion Wing, -Oceanic Operetta, -Octazooka, -Ominous Wind, -Origin Pulse, -Outrage, -Overheat, -Paleo Wave, -Parabolic Charge, -Parting Shot, -Payback, -Peck, -Petal Blizzard, -Petal Dance, -Phantom Force, -Photon Geyser, -Pin Missile, -Plasma Fists, -Play Rough, -Pluck, -Poison Fang, -Poison Gas, -Poison Jab, -Poison Powder, -Poison Sting, -Poison Tail, -Pollen Puff, -Powder, -Powder Snow, -Power Gem, -Power Split, -Power Swap, -Power Trick, -Power Trip, -Power Whip, -Power-Up Punch, -Precipice Blades, -Prismatic Laser, -Psybeam, -Psychic, -Psychic Fangs, -Psychic Terrain, -Psycho Boost, -Psycho Cut, -Psycho Shift, -Psyshock, -Psystrike, -Psywave, -Punishment, -Purify, -Pursuit, -Quash, -Quick Guard, -Quiver Dance, -Rage Powder, -Rain Dance, -Razor Leaf, -Razor Shell, -Reflect, -Rest, -Revenge, -Reversal, -Roar of Time, -Rock Blast, -Rock Polish, -Rock Slide, -Rock Smash, -Rock Throw, -Rock Tomb, -Rock Wrecker, -Role Play, -Rolling Kick, -Rollout, -Roost, -Rototiller, -Sacred Fire, -Sacred Sword, -Sand Attack, -Sand Tomb, -Sandstorm, -Savage Spin-Out, -Scald, -Searing Shot, -Searing Sunraze Smash, -Secret Sword, -Seed Bomb, -Seed Flare, -Seismic Toss, -Shadow Ball, -Shadow Bone, -Shadow Claw, -Shadow Force, -Shadow Punch, -Shadow Sneak, -Shadow Strike, -Shattered Psyche, -Sheer Cold, -Shell Trap, -Shift Gear, -Shock Wave, -Shore Up, -Signal Beam, -Silver Wind, -Sinister Arrow Raid, -Skill Swap, -Sky Attack, -Sky Drop, -Sky Uppercut, -Sleep Powder, -Sludge, -Sludge Bomb, -Sludge Wave, -Smack Down, -Smart Strike, -Smog, -Snarl, -Snatch, -Soak, -Solar Beam, -Solar Blade, -Soul-Stealing 7-Star Strike, -Spacial Rend, -Spark, -Sparkling Aria, -Spectral Thief, -Speed Swap, -Spider Web, -Spikes, -Spiky Shield, -Spirit Shackle, -Spite, -Splintered Stormshards, -Spore, -Stealth Rock, -Steam Eruption, -Steamroller, -Steel Wing, -Sticky Web, -Stoked Sparksurfer, -Stomping Tantrum, -Stone Edge, -Stored Power, -Storm Throw, -Strength Sap, -String Shot, -Struggle Bug, -Stun Spore, -Submission, -Subzero Slammer, -Sucker Punch, -Sunny Day, -Sunsteel Strike, -Superpower, -Supersonic Skystrike, -Surf, -Sweet Kiss, -Switcheroo, -Synchronoise, -Synthesis, -Tail Glow, -Tailwind, -Taunt, -Tectonic Rage, -Telekinesis, -Teleport, -Thief, -Thousand Arrows, -Thousand Waves, -Throat Chop, -Thunder, -Thunder Fang, -Thunder Punch, -Thunder Shock, -Thunder Wave, -Thunderbolt, -Topsy-Turvy, -Torment, -Toxic, -Toxic Spikes, -Toxic Thread, -Trick, -Trick Room, -Trick-or-Treat, -Triple Kick, -Trop Kick, -Twineedle, -Twinkle Tackle, -Twister, -U-turn, -V-create, -Vacuum Wave, -Venom Drench, -Venoshock, -Vine Whip, -Vital Throw, -Volt Switch, -Volt Tackle, -Wake-Up Slap, -Water Gun, -Water Pledge, -Water Pulse, -Water Shuriken, -Water Sport, -Water Spout, -Waterfall, -Whirlpool, -Wide Guard, -Wild Charge, -Will-O-Wisp, -Wing Attack, -Withdraw, -Wonder Room, -Wood Hammer, -Worry Seed, -X-Scissor, -Zap Cannon, -Zen Headbutt, -Zing Zap, -Acupressure, -After You, -Assist, -Attract, -Barrage, -Baton Pass, -Belly Drum, -Bestow, -Bide, -Bind, -Block, -Body Slam, -Boomburst, -Breakneck Blitz, -Camouflage, -Captivate, -Celebrate, -Chip Away, -Comet Punch, -Confide, -Constrict, -Conversion, -Conversion 2, -Copycat, -Covet, -Crush Claw, -Crush Grip, -Cut, -Defense Curl, -Disable, -Dizzy Punch, -Double Hit, -Double Slap, -Double Team, -Double-Edge, -Echoed Voice, -Egg Bomb, -Encore, -Endeavor, -Endure, -Entrainment, -Explosion, -Extreme Evoboost, -Extreme Speed, -Facade, -Fake Out, -False Swipe, -Feint, -Flail, -Flash, -Focus Energy, -Follow Me, -Foresight, -Frustration, -Fury Attack, -Fury Swipes, -Giga Impact, -Glare, -Growl, -Growth, -Guillotine, -Happy Hour, -Harden, -Head Charge, -Headbutt, -Heal Bell, -Helping Hand, -Hidden Power, -Hold Back, -Hold Hands, -Horn Attack, -Horn Drill, -Howl, -Hyper Beam, -Hyper Fang, -Hyper Voice, -Judgment, -Laser Focus, -Last Resort, -Leer, -Lock-On, -Lovely Kiss, -Lucky Chant, -Me First, -Mean Look, -Mega Kick, -Mega Punch, -Milk Drink, -Mimic, -Mind Reader, -Minimize, -Morning Sun, -Multi-Attack, -Natural Gift, -Nature Power, -Noble Roar, -Odor Sleuth, -Pain Split, -Pay Day, -Perish Song, -Play Nice, -Pound, -Present, -Protect, -Psych Up, -Pulverizing Pancake, -Quick Attack, -Rage, -Rapid Spin, -Razor Wind, -Recover, -Recycle, -Reflect Type, -Refresh, -Relic Song, -Retaliate, -Return, -Revelation Dance, -Roar, -Rock Climb, -Round, -Safeguard, -Scary Face, -Scratch, -Screech, -Secret Power, -Self-Destruct, -Sharpen, -Shell Smash, -Simple Beam, -Sing, -Sketch, -Skull Bash, -Slack Off, -Slam, -Slash, -Sleep Talk, -Smelling Salts, -Smokescreen, -Snore, -Soft-Boiled, -Sonic Boom, -Spike Cannon, -Spit Up, -Splash, -Spotlight, -Stockpile, -Stomp, -Strength, -Struggle, -Substitute, -Super Fang, -Supersonic, -Swagger, -Swallow, -Sweet Scent, -Swift, -Swords Dance, -Tackle, -Tail Slap, -Tail Whip, -Take Down, -Tearful Look, -Techno Blast, -Teeter Dance, -Thrash, -Tickle, -Transform, -Tri Attack, -Trump Card, -Uproar, -Vice Grip, -Weather Ball, -Whirlwind, -Wish, -Work Up, -Wrap, -Wring Out, -Yawn, -Focus Sash, -Sturdy, inversemod");
-		this.say("/wall This is a Sheddy tour!");
-		this.say("/tour name MSPL");
+	baplib: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		let quotes = " "
+		if (target === "mspl") quotes = getDatabase("mspl").quotes;
+		if (!target) quotes = getDatabase(room.id).quotes;
+		let randquote1 = Tools.sampleOne(quotes);
+		let randquote2 = Tools.sampleOne(quotes);
+		if (randquote1.trim().toLowerCase().endsWith('.png') || randquote1.trim().toLowerCase().endsWith('.jpg')) {
+			let link = '<img src=' +randquote1 + ' width=100% height=90% />';
+			this.sayHtml(link + " " + randquote2);
+		}else if (randquote2.trim().toLowerCase().endsWith('.png') || randquote2.trim().toLowerCase().endsWith('.jpg')) {
+			let link = '<img src=' +randquote2 + ' width=100% height=90% />';
+			this.sayHtml(randquote1 + " " + link);
+		}else if ((randquote1.trim().toLowerCase().endsWith('.png') || randquote1.trim().toLowerCase().endsWith('.jpg')) && (randquote2.trim().toLowerCase().endsWith('.png') || randquote2.trim().toLowerCase().endsWith('.jpg'))) {
+			let link1 = '<img src=' +randquote1 + ' width=70% height=60% />';
+			let link2 = '<img src=' +randquote2 + ' width=70% height=60% />';
+			return this.sayHtml(link1+link2);
+		}else if (randquote1.includes("http") || randquote2.includes("http")) {
+			if (randquote1.includes("http") && randquote2.includes("http")) {
+				let link1 = '<a href="' + randquote1 + '">' + randquote1 + '</a>';
+				let link2 = '<a href="' + randquote2 + '">' + randquote2 + '</a>';
+				return this.sayHtml(link1 + " " + link2);
+			}else if (randquote1.includes("http")) {
+				let link1 = '<a href="' + randquote1 + '">' + randquote1 + '</a>';
+				return this.sayHtml(link1 + ' ' + randquote2);
+			}else {
+				let link2 = '<a href="' + randquote2 + '">' + randquote2 + '</a>';
+				return this.sayHtml(randquote1 + ' ' + link2);
+			}
+		}else return this.sayHtml(randquote1 + " " + randquote2);
 	},
 	// General commands
+	calc: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
+		let answer = eval(target);
+		this.say(answer);
+	},
 	'code':'git', 'bapcode':'git',
 	git: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
 		this.say("Bapcode: https://github.com/wuhoodude/Bapbot");
 	},
 	joinroom: function (target, room, user) {
-		if (room instanceof Users.User || !canRoastban(user, room)) return;
+		if (room instanceof Users.User || !canRoastban(user, room)) return this.say("You can't do that");
 		this.say("/j " + target);
 	},
+	'leave':'leaveroom',
 	leaveroom: function (target, room, user) {
-		if (!(room instanceof Users.User) && !user.hasRank(room, '☆') && !user.isDeveloper) return;
+		if (room instanceof Users.User || !user.hasRank(room, '☆') && !user.isDeveloper()) return this.say("You can't do that");
+		this.say("Bap bap away");
 		this.say("/leave");
 	},
-	
+	userlist: function (target, room, user) {
+		if (room instanceof Users.User) return;
+		let users = Object.keys(Users.users);
+		this.say("There are " + room.users.size + " users in the room");
+	},
+	'kill':'logout',
+	logout: function (target, room, user) {
+		if (!(room instanceof Users.User) && !canRoastban(user, room)) return this.say("You can't do that");
+		this.say("/logout");
+	},
+	'forcekill':'forcelogout',
+	forcelogout: function (target, room, user) {
+		if (!(room instanceof Users.User) && !canRoastban(user, room)) return this.say("You can't do that");
+		process.exit();
+	},
+	test: function (target, room, user) {
+		if (!user.isDeveloper()) return;
+		let database = getDatabase("mspl");
+		let bl = database.msplbl;
+		console.log(bl);
+	},
+	sayMspl: function (target, room, user) {
+		if (!user.isDeveloper()) return;
+		room.saymspl(target);
+	},
 };
 
 exports.commands = commands;

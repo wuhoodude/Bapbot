@@ -21,6 +21,7 @@ const validRanks = ['+', '%', '@', '#'];
  * @param {Room | string} room
  * @return {AnyObject}
  */
+ 
 function getDatabase(room) {
 	if (room instanceof Rooms.Room) room = room.id;
 	let database = Storage.getDatabase(room);
@@ -40,7 +41,7 @@ function toRoomid(string) {
 	return string.toLowerCase().replace(/[^a-z0-9-]+/g, '');
 }
 
-/**@type {{[k: string]: Command | string}} */
+/**@type {{[k: string]: Command | string}} *//**
 const commands = {
 	hangmanrank: 'sethangmanrank',
 	sethangmanrank(target, room, user) {
@@ -117,7 +118,7 @@ const commands = {
 		this.say("/hangman new " + randomSolution + ", " + hangmanWords[randomSolution].hint);
 		this.say("/wall Use ``/guess [word] or [letter]`` to guess.");
 	},
-
+*/
 	viewhangman(target, room, user) {
 		if (room instanceof Users.User) return;
 		let database = getDatabase(room.id);
@@ -134,5 +135,4 @@ const commands = {
 		});
 	},
 };
-
-module.exports = {commands};
+module.exports = {commands}; 

@@ -250,6 +250,7 @@ class MessageParser {
 				if (room.tour) room.tour.start();
 				break;
 			case 'battlestart':
+				room.say("/j " + splitMessage[3].trim());
 				if (room.tour && !room.tour.isRoundRobin && room.tour.generator === 1 && room.tour.getRemainingPlayerCount() === 2) {
 					room.say("Final battle of " + room.tour.format.name + " tournament: <<" + splitMessage[3].trim() + ">>");
 				}

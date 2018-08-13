@@ -52,7 +52,7 @@ let commands = {
 	},
 	addquote: function (target, room, user) {
 		if (room instanceof Users.User) return;
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (!user.hasRank(room, database.defaultRanks['quotes'])) return;
 		target = target.trim();
 		if (!target) return this.say("Please use the following format: .addquote quote");
@@ -64,9 +64,10 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your quote was successfully added.");
 	},
+	"deletequote":"removequote",
 	removequote: function (target, room, user) {
 		if (room instanceof Users.User) return;
-		let database = getDatabase(room.id);
+		let database = getDatabase("mspl");
 		if (!user.hasRank(room, database.defaultRanks['quotes'])) return;
 		target = target.trim();
 		if (!target) return this.say("Please use the following format: .removequote quote");
@@ -79,13 +80,21 @@ let commands = {
 	},
 	randquote: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		let quotes = getDatabase(room.id).quotes;
+		//let quotes = " "
+		//if (target === "mspl") quotes = getDatabase("mspl").quotes;
+		//if (!target) quotes = getDatabase(room.id).quotes;
+		let quotes = getDatabase("mspl").quotes;
 		if (!quotes.length) return this.say("This room doesn't have any quotes.");
-		this.say(Tools.sampleOne(quotes));
+		let randquote = Tools.sampleOne(quotes);
+		if (randquote.trim().toLowerCase().endsWith('.png') || randquote.trim().toLowerCase().endsWith('.jpg')) {
+			this.say(randquote);
+			let link = '<img src=' +randquote + ' width=100% height=90% />';
+			this.sayHtml(link);
+		}else return this.say(randquote);
 	},
 	quotes: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		let quotes = getDatabase(room.id).quotes;
+		let quotes = getDatabase("mspl").quotes;
 		if (!quotes.length) return this.say("This room doesn't have any quotes.");
 		let prettifiedQuotes = "Quotes for " + room.id + ":\n\n" + quotes.map(
 			/**

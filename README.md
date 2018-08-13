@@ -24,9 +24,6 @@
 ``.autobap number`` - Turns on autobap to bap a set interval<br>
 ``.autobap off`` - Turns off autobap<br>
 ``.autobap`` - Shows the current bap interval<br>
-
-
-
 ### @ and Dev only
 ``.mbop [user]``or ``.megabop [user]`` -roombans then unbans and invites a user<br>
 

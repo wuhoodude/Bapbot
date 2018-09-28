@@ -24,6 +24,8 @@
 ``.autobap number`` - Turns on autobap to bap a set interval<br>
 ``.autobap off`` - Turns off autobap<br>
 ``.autobap`` - Shows the current bap interval<br>
+### Baplib 
+``.baplib`` Generates 2 random quotes in an htmlbox
 ### @ and Dev only
 ``.mbop [user]``or ``.megabop [user]`` -roombans then unbans and invites a user<br>
 

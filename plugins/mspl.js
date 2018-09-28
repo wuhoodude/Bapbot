@@ -229,6 +229,7 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		this.say("/wall __ganern__");
 	},
+	'vivalospride':'viv',
 	viv: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let part1 = ["deadass fax ","straight up ","literally ","Hey, wanna share some opinions now, ","Hola ","Aight so ","Aye, so ","woah hold up " , "Hey! " , "owo " , "Holy señor, ", "Uh this is a tech that's pretty neat to deal with a lot of stuff, ", "Aight so I'm not gonna lie I don't understand what the fuck this is doing as a discussion point. ", "I didn't wanna come back to this thread but I have come in to bring all the hate for this mon to a halt. " , "Hola mates, "];
@@ -257,7 +258,7 @@ let commands = {
 	autobap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || database.bapbans.includes(Tools.toId(user)) || !user.isDeveloper) return this.say("You are not allowed to bap");
-		if (Number.parseFloat(target) < 3 ) return this.say("The bap interval must be at least 5 seconds");
+		if (Number.parseFloat(target) < 5 ) return this.say("The bap interval must be at least 5 seconds");
 		if (Number.parseFloat(target) > 3600.0) return this.say("The maximum baps interval is 3600 seconds");
 		function startAutobap() {
 			if (bapTimer) clearInterval(bapTimer);
@@ -317,6 +318,16 @@ let commands = {
 		this.pm(Tools.toId(target), "bap");
 		this.say("bapped");
 	
+	},
+	randbap: function (target, room, user) {
+		let users = Object.keys(Users.users);
+		let index = users.indexOf(Tools.toId("Bapbot"));
+		if (index > -1) {
+			users.splice(index, 1);
+		}
+		let pick = Tools.sampleOne(users)
+		this.say("Bapped " + pick);
+		this.pm(pick, "bap");
 	},
 	baproulette: function (target, room, user) {
 		if (room instanceof Users.User) return this.say("You have to use this in a room");
@@ -381,9 +392,11 @@ let commands = {
 	},
 	hangman: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		let randomAnswer = Tools.sampleOne(["a", "b"])
-		this.say("/hangman new " + randomAnswer + ",a OR b");
-		
+		let randomAnswer = Tools.sampleOne(["a", "b", "mengy", "lunch"])
+		if (randomAnswer==="mengy" || randomAnswer==="lunch") {
+			this.say("/hangman new " + randomAnswer + ",lunch OR mengy");
+			return;
+		}else this.say("/hangman new " + randomAnswer + ",a OR b");
 	},
 	//gifs That Bot can show 
 	addgif: function (target, room, user) {
@@ -492,11 +505,38 @@ let commands = {
 			return;
 		}
 	},
+	'mbap':'megabap', 
+	megabap: function (target, room, user) {
+		if (room instanceof Users.User || !canMegaBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ Megabop users");
+		if (room.tour) return this.say("You can't do that during tours");
+		let roomId = room.id;
+		if (roomId.startsWith("battle")) return this.say("You can't do that in a battle");
+		if (!target) return this.say("``.bop user`` to bop");
+		if (Tools.toId(target) === 'wuhoodude') {
+			this.say('/rb ' + user.id + ",bap");
+			this.say("/unban " + user.id);
+			this.say("You no Mega bap daddy");
+			this.say("/invite " + user.id);
+			return;
+		}if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
+		this.pm(Tools.toId(target), "bap");
+		this.say("/rb " + target + ",bap");
+		this.say("/unban " + target);
+		this.say("/invite " + target);
+		this.say("Mega bapped");
+		if (Tools.toId(target) === 'bapbot') {
+			this.say("/rb " + user.id + ",bap");
+			this.say("/unban " + user.id);
+			this.say("/invite " + user.id);
+			this.say("Get Bopped");
+		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
+			return;
+		}
+	},
 	baplib: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		let quotes = " "
-		if (target === "mspl") quotes = getDatabase("mspl").quotes;
-		if (!target) quotes = getDatabase(room.id).quotes;
+		let database = getDatabase("mspl")
+		let quotes = database.quotes;
 		let randquote1 = Tools.sampleOne(quotes);
 		let randquote2 = Tools.sampleOne(quotes);
 		if (randquote1.trim().toLowerCase().endsWith('.png') || randquote1.trim().toLowerCase().endsWith('.jpg')) {
@@ -544,7 +584,7 @@ let commands = {
 		this.say("Bap bap away");
 		this.say("/leave");
 	},
-	userlist: function (target, room, user) {
+	usercount: function (target, room, user) {
 		if (room instanceof Users.User) return;
 		let users = Object.keys(Users.users);
 		this.say("There are " + room.users.size + " users in the room");
@@ -552,6 +592,7 @@ let commands = {
 	'kill':'logout',
 	logout: function (target, room, user) {
 		if (!(room instanceof Users.User) && !canRoastban(user, room)) return this.say("You can't do that");
+		this.say("Bap bap away");
 		this.say("/logout");
 	},
 	'forcekill':'forcelogout',
@@ -561,9 +602,13 @@ let commands = {
 	},
 	test: function (target, room, user) {
 		if (!user.isDeveloper()) return;
-		let database = getDatabase("mspl");
-		let bl = database.msplbl;
-		console.log(bl);
+		let users = Object.keys(Users.users);
+		let index = users.indexOf(Tools.toId("Bapbot"));
+		if (index > -1) {
+			users.splice(index, 1);
+		}
+
+		console.log(users)
 	},
 	sayMspl: function (target, room, user) {
 		if (!user.isDeveloper()) return;

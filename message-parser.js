@@ -171,6 +171,9 @@ class MessageParser {
 		case 'init':
 			room.onJoin(Users.self, ' ');
 			console.log('Joined room: ' + room.id);
+			if (room.id === "mspl") {
+				room.say("Bap bap hello");
+			}
 			break;
 		case 'noinit':
 			console.log('Could not join room: ' + room.id);

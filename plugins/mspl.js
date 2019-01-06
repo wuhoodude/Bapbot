@@ -322,16 +322,17 @@ let commands = {
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		if (['disappear', 'invisible','magic'].includes(target)) return this.say("[[]]");
 		if (['㋛'].includes(target)) return this.say("ⓑⓐⓟ");
-		if (Number.parseFloat(target) > 5.0) return this.say("The maximum baps per bap is 3");//baps the target amount per command
+		if (Number.parseFloat(target) > 5.0) return this.say("The maximum baps per bap is 5");//baps the target amount per command
 		if (Number.parseInt(target) <= 5)  {
+			if (currentSlowbap === true) return this.say("slowdown");//prevents spamming multibap
 			if (currentSlowbap === false) {
 				currentSlowbap = true;
 				for (let i = 0; i < target; i++) {
 				this.say("BAP");
 			}
-			slowBap = setTimeout(() => {currentSlowbap = false;}, 2 * 1000);
+			slowBap = setTimeout(() => {currentSlowbap = false;}, 5 * 1000);
 			return;
-			}else return this.say("slow down");
+			}
 		}
 		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
 		this.pm(Tools.toId(target), "bap");

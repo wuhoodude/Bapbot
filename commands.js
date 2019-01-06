@@ -163,10 +163,8 @@ let commands = {
 				this.say("/wall This is a Povertymons tour!");
 				break;
 			case 'mspl':
-				let database = getDatabase(room.id);
 				this.say("/tour new [Gen 6] Triples Custom Game, elim");
-				let bl = database.msplbl;
-				this.say("/tour rules " + bl);
+				this.say("/tour rules -Uber, -OU, -UU, -RU, -NU, -PU, +Shedinja");
 				this.say("/wall This is a Sheddy tour!");
 				this.say("/tour autostart 1");
 				this.say("/tour name MSPL");

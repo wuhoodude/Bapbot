@@ -36,7 +36,9 @@ function getDatabase(room) {
 	return database;
 }
 let bapDelay = {};
+let slowBap = {};
 let bapTimer = {};
+let currentSlowbap = false;
 let currentAutobap = 0;
 /**@type {{[k: string]: Command | string}} */
 let commands = {
@@ -102,6 +104,7 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your roast was successfully added.");
 	},
+	'deleteroast':'removeroast',
 	removeroast: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || !user.hasRank(room, '+') || database.roastbans.includes(Tools.toId(user))) return this.say("You are not allowed to use roast commands");
@@ -164,6 +167,7 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your pickup line was successfully added.");
 	},
+	'deletepickup':'removepickup',
 	removepickup: function (target, room, user) {
 		let database = getDatabase("mspl");
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
@@ -232,18 +236,29 @@ let commands = {
 	'vivalospride':'viv',
 	viv: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
-		let part1 = ["deadass fax ","straight up ","literally ","Hey, wanna share some opinions now, ","Hola ","Aight so ","Aye, so ","woah hold up " , "Hey! " , "owo " , "Holy señor, ", "Uh this is a tech that's pretty neat to deal with a lot of stuff, ", "Aight so I'm not gonna lie I don't understand what the fuck this is doing as a discussion point. ", "I didn't wanna come back to this thread but I have come in to bring all the hate for this mon to a halt. " , "Hola mates, "];
-		let part2 = ["my man " , "this fuckin mon " , "" , "fuckin " , "ngl I hate playing this tier right now bc " , "yall should know " , "i've been laddering for literally days and " , "ima try to keep this short but " , "i know it looks like straight booty but " , "goatmon " , "if ur using webs like me, " , "deadass " , "I don't think this mon is like nuts or anything but " ,  "yes. I was the one who nommed this thing to get on the vr in the first place, and after that I didn't use it for a while, but "];
-		let part3 = ["nihi " , "araquanid " , "vileplume " , "honch " , "sheddy " , "shedinja " , "tsar " , "cm coba aka seiballion " , "fight-z nape " , "z-fight kommo w taunt " , "umbreon " , "z-snatch krook " , "sd scep " , "stakatakataka " , "babiri toge " , "cb goodra (yes i know) " , "flame body chandy " , "smeargle "];
-		let part4 = ["is straight busted wtf" , "is the fuckin paul pierce" , "is super fuckin annoying" , "is so fuckin splashable" , "is easily A-" , "is literally impossible to check" , "is a broken mon" , "can be plopped onto teams so fuckin easily" , "is actual goat" , "is legit unbeatable" , "does a lot of damage I promise"];
-		let part5 = [" do not schleep." , " ngl." , " im telling you." , " rn." , " omfl." , ", especially on webs." , ", fr we should all be grateful this mon exists." , ", and it even has decent bulk." , " wtf." , ", bet." , " owo." , ", yes it loses to scizor but thats not its role." , ". This mon can work as an amazing wallbreaker throughout the match." ,  ". This mon is disgusting and it deserves some respect on it's name." , ", please someone explain how this mon deserves to even be remotely close to being mentioned for a downgrade." ,  ", please raise the lad." , ". this mon is dope."];
-		let part6 = [" Anyway Lati matchup on this team is LOL so hf w/ that lmao." , " Not like anyone listens to my suggestions anyway HAHAHAHAAHAAHAHAA" , " the point is this mon gets a lot better post shifts" , " Anyway like this post pls I spent deadass 12 hours testing shit on ladder n_n" , " This mon is lit don't sleep pls thanks :D" , " shoutout to martha for making this." , " so yeah vote ban n_n" , " brb kms" , " I made a post a while back on this mon that didn't really pick up any traction, hopefully this one is different." , " please rank this mon... idc where, just rank it." , " I don't wanna have to put up with this shit while building." , " I haven't tried this mon out yet but I doubt it'd be too bad" , " Adaam can attest to how good this mon is rn." , ` Also, Hydreigon definitely doesn't "invalidate" it...` , " oh and it hurts like dicks, here's proof" , " Dw I have insomnia and literally don't sleep, I'll just hit u up if I see u online over the weekend." , " If anything it should be considered rising to S, I don't understand this at all u_u." , " Please someone explain how this mon deserves to even be remotely close to being mentioned for a downgrade rn." , " this mon has gotten significantly better in the past month or two, like seriously." , " Ik I've been praising this mon this whole time but I really do agree that this mon is mediocre rn in the meta." , " I agree that this mon is mediocre as shit rn, but I've used it a lot." , " don't send this mon to the shadow realm and definitely don't call it an unmon." , " Move it up lads."];
-		return this.say(Tools.sampleOne(part1)+Tools.sampleOne(part2)+Tools.sampleOne(part3)+Tools.sampleOne(part4)+Tools.sampleOne(part5)+Tools.sampleOne(part6));
+		let quote1 = ["deadass fax ", "straight up ", "literally ", "Hey, wanna share some opinions now, ", "Hola ", "Aight so ", "Aye, so ", "woah hold up ", "Hey! ", "owo ", "Holy señor, ", "Uh this is a tech that's pretty neat to deal with a lot of stuff, ", "Aight so I'm not gonna lie I don't understand what the fuck this is doing as a discussion point. ", "I didn't wanna come back to this thread but I have come in to bring all the hate for this mon to a halt. ", "Hola mates, ", "Aight uh here're some of my shitty thoughts, "]
+		let quote2 = ["my man ", "this fuckin mon ", "", "fuckin ", "ngl I hate playing this tier right now bc ", "yall should know ", "i've been laddering for literally days and ", "ima try to keep this short but ", "i know it looks like straight booty but ", "goatmon ", "if ur using webs like me, ", "deadass ", "I don't think this mon is like nuts or anything but ", "yes. I was the one who nommed this thing to get on the vr in the first place, and after that I didn't use it for a while, but "]
+		let quote3 = ["nihi ", "araquanid ", "vileplume ", "honch ", "sheddy ", "shedinja ", "tsar ", "cm coba aka seiballion ", "fight-z nape ", "fight-z kommo ", "umbreon ", "z-snatch krook ", "sd scep ", "lo stakatakataka ", "babiri toge ", "cb goodra (yes i know) ", "flame body chandy ", "smeargle ", "toxicroak ", "mega bronchitis ", "galv ", "mienshaolin "]
+		let quote4 = ["is straight busted wtf", "is the fuckin paul pierce", "is super fuckin annoying", "is so fuckin splashable", "is easily A-", "is literally impossible to check", "is a broken mon", "can be plopped onto teams so fuckin easily", "is actual goat", "is legit unbeatable", "does a lot of damage I promise"]
+		let quote5 = [" do not schleep.", " ngl.", " im telling you.", " rn.", " omfl.", ", especially on webs.", ", fr we should all be grateful this mon exists.", ", and it even has decent bulk.", " wtf.", ", bet.", " owo.", ", yes it loses to scizor but thats not its role.", ". This mon can work as an amazing wallbreaker throughout the match.", ". This mon is disgusting and it deserves some respect on it's name.", ", please someone explain how this mon deserves to even be remotely close to being mentioned for a downgrade.", ", please raise the lad.", ". this mon is dope.", ", and it pressures a lot of the tier's removal and wins 1v1."]
+		let quote6 = [" Anyway Lati matchup on this team is LOL so hf w/ that lmao.", " Not like anyone listens to my suggestions anyway HAHAHAHAAHAAHAHAA", " the point is this mon gets a lot better post shifts", " Anyway like this post pls I spent deadass 12 hours testing shit on ladder n_n", " This mon is lit don't sleep pls thanks :D", " shoutout to martha for making this.", " so yeah vote ban n_n", " brb kms", " I made a post a while back on this mon that didn't really pick up any traction, hopefully this one is different.", " please rank this mon... idc where, just rank it.", " I don't wanna have to put up with this shit while building.", " I haven't tried this mon out yet but I doubt it'd be too bad", " Adaam can attest to how good this mon is rn.", " Also, Hydreigon definitely doesn't \"invalidate\" it...", " oh and it hurts like dicks", " Dw I have insomnia and literally don't sleep, I'll just hit u up if I see u online over the weekend.", " If anything it should be considered rising to S, I don't understand this at all u_u.", " Please someone explain how this mon deserves to even be remotely close to being mentioned for a downgrade rn.", " this mon has gotten significantly better in the past month or two, like seriously.", " I agree that this mon is mediocre as shit rn, but I've used it a lot.", " don't send this mon to the shadow realm and definitely don't call it an unmon.", " Move it up lads.", " idc fml kms brb owo smh.", " Idk what's gonna happen but idrc care enough to theorize.", " araq for b- n_n, c5 aoty"];
+		return this.say(Tools.sampleOne(quote1)+Tools.sampleOne(quote2)+Tools.sampleOne(quote3)+Tools.sampleOne(quote4)+Tools.sampleOne(quote5)+Tools.sampleOne(quote6));
 	},
 	'euph':'euphonos',
 	euphonos: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		return this.say("/wall __When it's brown, it's cooked; when it's black, it's fucked!__"); 
+	},
+	'bear':'bewear',
+	bewear: function (target, room, user) {
+		if (room instanceof Users.User) return;
+		return this.say("\\\\{\\\\^\\\\°(T)°\\\\^\\\\}\\\\"); 
+	},
+	'bearmeme':'bewearmeme',
+	bewearmeme: function (target, room, user) {
+		if (room instanceof Users.User) return;
+		let link = '<img src= "https://i.imgur.com/s79RHa4.png"width=70% height=60% />';
+		this.sayHtml(link);
 	},
 	delaybap: function (target, room, user) {
 		let database = getDatabase(room.id);
@@ -307,18 +322,23 @@ let commands = {
 		if (['m', 'mock'].includes(target)) return this.say("^^B^^\\\\a\\\\P");
 		if (['disappear', 'invisible','magic'].includes(target)) return this.say("[[]]");
 		if (['㋛'].includes(target)) return this.say("ⓑⓐⓟ");
-		if (Number.parseFloat(target) > 3.0) return this.say("The maximum baps per bap is 3");
-		if (Number.parseInt(target) <= 3)  {
-			for (let i = 0; i < target; i++) {
+		if (Number.parseFloat(target) > 5.0) return this.say("The maximum baps per bap is 3");//baps the target amount per command
+		if (Number.parseInt(target) <= 5)  {
+			if (currentSlowbap === false) {
+				currentSlowbap = true;
+				for (let i = 0; i < target; i++) {
 				this.say("BAP");
 			}
+			slowBap = setTimeout(() => {currentSlowbap = false;}, 2 * 1000);
 			return;
+			}else return this.say("slow down");
 		}
 		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
 		this.pm(Tools.toId(target), "bap");
 		this.say("bapped");
 	
 	},
+	'randombap':'randbap',
 	randbap: function (target, room, user) {
 		let users = Object.keys(Users.users);
 		let index = users.indexOf(Tools.toId("Bapbot"));
@@ -430,7 +450,7 @@ let commands = {
 	link: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		if (!target.trim().toLowerCase().endsWith('.gif') && !target.trim().toLowerCase().endsWith('.jpg')&& !target.trim().toLowerCase().endsWith('.png')) return this.say("Please provide an image or gif (url must end in .gif, .jpg or .png)");
-		let link = '<img src=' + target + ' width=70% height=60% />';
+		let link = '<details><summary>Expand</summary><img src=' + target + ' width=70% height=60% /></details>';
 		this.sayHtml(link);
 	},
 	randgif: function (target, room, user) {
@@ -438,7 +458,7 @@ let commands = {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let gifs = getDatabase(room.id).gifs;
 		if (!gifs.length) return this.say("This room doesn't have any gifs.");
-		let box = '<img src=' + Tools.sampleOne(gifs) + ' width=70% height=60% />';
+		let box = '<details><summary>Expand</summary><img src=' + Tools.sampleOne(gifs) + ' width=70% height=60% /></details>';
 		this.sayHtml(box);
 	},
 	gifs: function (target, room, user) {
@@ -479,13 +499,13 @@ let commands = {
 			return;
 		}
 	},
-	'mbop':'megabop', 
+	'mbop':'megabop', 'megabap':'megabop','mbap':'megabop',
 	megabop: function (target, room, user) {
 		if (room instanceof Users.User || !canMegaBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ Megabop users");
 		if (room.tour) return this.say("You can't do that during tours");
 		let roomId = room.id;
 		if (roomId.startsWith("battle")) return this.say("You can't do that in a battle");
-		if (!target) return this.say("``.bop user`` to bop");
+		if (!target) return this.say("``.mbop user`` to bop");
 		if (Tools.toId(target) === 'wuhoodude') {
 			this.say('/rb ' + user.id + ",bap");
 			this.say("/unban " + user.id);
@@ -496,34 +516,6 @@ let commands = {
 		this.say("/rb " + target + ",bap");
 		this.say("/unban " + target);
 		this.say("/invite " + target);
-		if (Tools.toId(target) === 'bapbot') {
-			this.say("/rb " + user.id + ",bap");
-			this.say("/unban " + user.id);
-			this.say("/invite " + user.id);
-			this.say("Get Bopped");
-		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
-			return;
-		}
-	},
-	'mbap':'megabap', 
-	megabap: function (target, room, user) {
-		if (room instanceof Users.User || !canMegaBop(user, room)) return this.say("Git good you have to be @ or dev to ~~ab00se~~ Megabop users");
-		if (room.tour) return this.say("You can't do that during tours");
-		let roomId = room.id;
-		if (roomId.startsWith("battle")) return this.say("You can't do that in a battle");
-		if (!target) return this.say("``.bop user`` to bop");
-		if (Tools.toId(target) === 'wuhoodude') {
-			this.say('/rb ' + user.id + ",bap");
-			this.say("/unban " + user.id);
-			this.say("You no Mega bap daddy");
-			this.say("/invite " + user.id);
-			return;
-		}if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
-		this.pm(Tools.toId(target), "bap");
-		this.say("/rb " + target + ",bap");
-		this.say("/unban " + target);
-		this.say("/invite " + target);
-		this.say("Mega bapped");
 		if (Tools.toId(target) === 'bapbot') {
 			this.say("/rb " + user.id + ",bap");
 			this.say("/unban " + user.id);
@@ -563,6 +555,10 @@ let commands = {
 			}
 		}else return this.sayHtml(randquote1 + " " + randquote2);
 	},
+	uno: function (target, room, user) {
+	if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+	this.say("/uno new");
+	},
 	// General commands
 	calc: function (target, room, user) {
 		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return;
@@ -600,15 +596,16 @@ let commands = {
 		if (!(room instanceof Users.User) && !canRoastban(user, room)) return this.say("You can't do that");
 		process.exit();
 	},
+	speeduno: function (target, room, user) {
+		if (!(room instanceof Users.User) && !user.hasRank(room, '+')) return; 
+		this.say("/uno new");
+		this.say("/uno autostart 30");
+		this.say("/uno timer 5");
+	},
 	test: function (target, room, user) {
 		if (!user.isDeveloper()) return;
 		let users = Object.keys(Users.users);
-		let index = users.indexOf(Tools.toId("Bapbot"));
-		if (index > -1) {
-			users.splice(index, 1);
-		}
-
-		console.log(users)
+		console.log(users);
 	},
 	sayMspl: function (target, room, user) {
 		if (!user.isDeveloper()) return;

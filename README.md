@@ -11,7 +11,9 @@
 #### Bap
 ``.bap``-Bapbot says bap in the chat<br>
 ``.bap person`` baps that person if they are in the room<br>
-`` .bap ~`` ``.bap ~~`` ``.bap crossout`` ``.bap strikethrough`` ~~bap~~<br>
+``.bap person [number]`` baps the person up to 5 times if they are in the room<br>
+``.randbap`` or ``.randombap`` baps a random person in the room<br>
+``.bap ~`` ``.bap ~~`` ``.bap crossout`` ``.bap strikethrough`` ~~bap~~<br>
 ``.bap *`` ``.bap **`` ``.bap bold`` ``.bap strong``  **BAP**<br>
 ``.bap _`` ``.bap __`` ``.bap emphasis`` ``.bap italic``   <i>BAP</i><br>
 ``.bap ^`` ``.bap ^^`` ``.bap carrot``  ``.bap superscript`` <sup>BAP</sup><br>

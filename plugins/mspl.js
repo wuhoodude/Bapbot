@@ -334,10 +334,22 @@ let commands = {
 			return;
 			}
 		}
+		let targets = target.split(" ");
+		if (!(Tools.toId(targets[0]) in Users.users)) return this.say("That person isn't in the room");
+		if (Number.parseFloat(targets[1]) > 5.0) return this.say("The maximum baps per bap is 5")
+		if (Number.parseInt(targets[1]) <= 5)  {
+			if (currentSlowbap === true) return this.say("slowdown");//prevents spamming multibap
+			if (currentSlowbap === false) {
+				currentSlowbap = true;
+				for (let i = 0; i < targets[1]; i++) {
+				this.pm(Tools.toId(targets[0]), "bap");
+			}
+			slowBap = setTimeout(() => {currentSlowbap = false;}, 5 * 1000);
+			}
+		}
 		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
 		this.pm(Tools.toId(target), "bap");
 		this.say("bapped");
-	
 	},
 	'randombap':'randbap',
 	randbap: function (target, room, user) {

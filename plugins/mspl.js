@@ -334,17 +334,19 @@ let commands = {
 			return;
 			}
 		}
-		let targets = target.split(" ");
+		let targets = target.split(",");
 		if (!(Tools.toId(targets[0]) in Users.users)) return this.say("That person isn't in the room");
 		if (Number.parseFloat(targets[1]) > 5.0) return this.say("The maximum baps per bap is 5")
 		if (Number.parseInt(targets[1]) <= 5)  {
 			if (currentSlowbap === true) return this.say("slowdown");//prevents spamming multibap
 			if (currentSlowbap === false) {
 				currentSlowbap = true;
-				for (let i = 0; i < targets[1]; i++) {
-				this.pm(Tools.toId(targets[0]), "bap");
+				for (let i = 1; i <= targets[1]; i++) {
+				this.pm(Tools.toId(targets[0]), 'bap '+i);
 			}
 			slowBap = setTimeout(() => {currentSlowbap = false;}, 5 * 1000);
+			this.say("bapped");
+			return
 			}
 		}
 		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
@@ -617,8 +619,9 @@ let commands = {
 	},
 	test: function (target, room, user) {
 		if (!user.isDeveloper()) return;
-		let users = Object.keys(Users.users);
-		console.log(users);
+		console.log(Tools.toId(target));
+		//let targets = target.split(",");
+		//console.log(targets[0]);
 	},
 	sayMspl: function (target, room, user) {
 		if (!user.isDeveloper()) return;

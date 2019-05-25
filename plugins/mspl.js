@@ -439,7 +439,7 @@ let commands = {
 		///jp import 1,1, Who was the goat that got us the mspl room?|Eyan, What was the purpose of the original MSPL groupchat|Uno, What was the name of the room we took sought refuge in before we got this room?|Massive Damage
 		///jp import 2,1, "only girls whose company i enjoy are anime girls with big tiddies [19:24:55]  and cat ears [19:25:00]  and a penis"|Bob the Bro, "i have an attraction to jackals that is unexplained"|Juuno, ":thonang:"|XAnish
 		///jp import 3,1, Biggest bewear fan of all time|wuhoodude, Who helped code Bapbot and was eventually banned from MSPL?|Kris, Who is known for peaking with yanmega on the uu ladder?|Kitten Milk
-		///jp import 4,1 What was the very first command on Bapbot?|bap, Git good you have to be % or dev to ~~ab00se~~ _____ users|bop, ,What does Bapbot currently say when it joins the room?|Bap bap hlelo
+		///jp import 4,1, What was the very first command on Bapbot?|bap, Git good you have to be % or dev to ~~ab00se~~ _____ users|bop, What does Bapbot currently say when it joins the room?|Bap bap hlelo
 	},
 	//gifs That Bot can show 
 	addgif: function (target, room, user) {
@@ -547,6 +547,13 @@ let commands = {
 		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
 		}
 		return this.say("/modnote " + target + " mega bopped by " + user.id);
+	},
+	purgealts: function (target, room, user) {
+		if (room instanceof Users.User || !canMegaBop(user, room)) return;
+		let targets = target.split(',');
+		for (let i = 0; i < targets.length; i++) {
+			this.say("/roomdevoice " + targets[i]);
+		}
 	},
 	baplib: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;

@@ -302,6 +302,10 @@ let commands = {
 			}
 		}
 	},
+	overbap: function (target, room, user) {
+		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
+		return this.say("/wall OVERBAP BAP BAP!"); 
+	},
 	bap: function (target, room, user) {
 		let database = getDatabase(room.id);
 		if (room instanceof Users.User || database.bapbans.includes(Tools.toId(user))) return this.say("You are not allowed to bap");
@@ -345,8 +349,8 @@ let commands = {
 				this.pm(Tools.toId(targets[0]), 'bap '+i);
 			}
 			slowBap = setTimeout(() => {currentSlowbap = false;}, 5 * 1000);
-			this.say("bapped");
-			return
+			this.say("bapped "+targets[1]+" times");
+			return;
 			}
 		}
 		if (!(Tools.toId(target) in Users.users)) return this.say("That person isn't in the room");
@@ -432,6 +436,10 @@ let commands = {
 			this.say("/hangman new " + randomAnswer + ",lunch OR mengy");
 			return;
 		}else this.say("/hangman new " + randomAnswer + ",a OR b");
+		///jp import 1,1, Who was the goat that got us the mspl room?|Eyan, What was the purpose of the original MSPL groupchat|Uno, What was the name of the room we took sought refuge in before we got this room?|Massive Damage
+		///jp import 2,1, "only girls whose company i enjoy are anime girls with big tiddies [19:24:55]  and cat ears [19:25:00]  and a penis"|Bob the Bro, "i have an attraction to jackals that is unexplained"|Juuno, ":thonang:"|XAnish
+		///jp import 3,1, Biggest bewear fan of all time|wuhoodude, Who helped code Bapbot and was eventually banned from MSPL?|Kris, Who is known for peaking with yanmega on the uu ladder?|Kitten Milk
+		///jp import 4,1 What was the very first command on Bapbot?|bap, Git good you have to be % or dev to ~~ab00se~~ _____ users|bop, ,What does Bapbot currently say when it joins the room?|Bap bap hlelo
 	},
 	//gifs That Bot can show 
 	addgif: function (target, room, user) {
@@ -511,8 +519,8 @@ let commands = {
 			this.say("/unmute " + user.id);
 			this.say("Get Bopped");
 		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
-			return;
 		}
+		return this.say("/modnote " + target + " bopped by " + user.id);
 	},
 	'mbop':'megabop', 'megabap':'megabop','mbap':'megabop',
 	megabop: function (target, room, user) {
@@ -537,8 +545,8 @@ let commands = {
 			this.say("/invite " + user.id);
 			this.say("Get Bopped");
 		this.sayHtml('<img src= https://media.giphy.com/media/zNXvBiNNcrjDW/giphy.gif  width=50% height=40% />');
-			return;
 		}
+		return this.say("/modnote " + target + " mega bopped by " + user.id);
 	},
 	baplib: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
@@ -619,9 +627,7 @@ let commands = {
 	},
 	test: function (target, room, user) {
 		if (!user.isDeveloper()) return;
-		console.log(Tools.toId(target));
-		//let targets = target.split(",");
-		//console.log(targets[0]);
+		console.log(user.roomData.get(room));
 	},
 	sayMspl: function (target, room, user) {
 		if (!user.isDeveloper()) return;

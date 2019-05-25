@@ -50,12 +50,12 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Users of rank " + target + " and above can now manage room quotes.");
 	},
-	addquote: function (target, room, user) {
+	addbapquote: function (target, room, user) {
 		if (room instanceof Users.User) return;
 		let database = getDatabase("mspl");
 		if (!user.hasRank(room, database.defaultRanks['quotes'])) return;
 		target = target.trim();
-		if (!target) return this.say("Please use the following format: .addquote quote");
+		if (!target) return this.say("Please use the following format: .addbapquote quote");
 		if (target.startsWith("/") || target.startsWith("!")) return this.say("You can't use a command in your quote.");
 		let quotes = database.quotes;
 		let index = quotes.findIndex(/**@param {string} quote */ quote => Tools.toId(quote) === Tools.toId(target));
@@ -64,13 +64,13 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your quote was successfully added.");
 	},
-	"deletequote":"removequote",
-	removequote: function (target, room, user) {
+	"deletebapquote":"removebapquote",
+	removebapquote: function (target, room, user) {
 		if (room instanceof Users.User) return;
 		let database = getDatabase("mspl");
 		if (!user.hasRank(room, database.defaultRanks['quotes'])) return;
 		target = target.trim();
-		if (!target) return this.say("Please use the following format: .removequote quote");
+		if (!target) return this.say("Please use the following format: .removebapquote quote");
 		let quotes = database.quotes;
 		let index = quotes.findIndex(/**@param {string} quote */ quote => Tools.toId(quote) === Tools.toId(target));
 		if (index < 0) return this.say("Your quote doesn't exist in the database.");
@@ -78,7 +78,7 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your quote was successfully removed.");
 	},
-	randquote: function (target, room, user) {
+	bapquote: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		//let quotes = " "
 		//if (target === "mspl") quotes = getDatabase("mspl").quotes;
@@ -92,7 +92,7 @@ let commands = {
 			this.sayHtml(link);
 		}else return this.say(randquote);
 	},
-	quotes: function (target, room, user) {
+	bapquotes: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		let quotes = getDatabase("mspl").quotes;
 		if (!quotes.length) return this.say("This room doesn't have any quotes.");

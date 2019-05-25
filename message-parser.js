@@ -172,7 +172,7 @@ class MessageParser {
 			room.onJoin(Users.self, ' ');
 			console.log('Joined room: ' + room.id);
 			if (room.id === "mspl") {
-				room.say("Bap bap hello");
+				room.say("Bap bap hlelo");
 			}
 			break;
 		case 'noinit':
@@ -319,7 +319,7 @@ class MessageParser {
 			}
 			let time = parseInt(splitMessage[0]) * 1000;
 			this.parseCommand(message, room, user, time);
-			if (!user.hasRank(room, '+')) this.moderate(message, room, user, time);
+			if (!user.hasRank(room, '#')) this.moderate(message, room, user, time); //will moderate up to this rank
 			break;
 		}
 		case 'pm': {
@@ -468,7 +468,7 @@ class MessageParser {
 			let testTime = time - data.messages[FLOOD_MINIMUM_MESSAGES - 1].time;
 			// account for the server's time changing
 			if (testTime >= 0 && testTime <= FLOOD_MAXIMUM_TIME) {
-				punishments.push({action: 'mute', rule: 'flooding', reason: 'please do not flood the chat'});
+				punishments.push({action: 'mute', rule: 'flooding', reason: 'bap'});
 			}
 		}
 
@@ -477,14 +477,14 @@ class MessageParser {
 		if (stretching) {
 			stretching.sort((a, b) => b.length - a.length);
 			if (stretching[0].length >= STRETCHING_MINIMUM) {
-				punishments.push({action: 'verbalwarn', rule: 'stretching', reason: 'please do not stretch'});
+				punishments.push({action: 'verbalwarn', rule: 'stretching', reason: 'bap'});
 			}
 		}
 
 		// caps
 		let caps = message.match(capsRegex);
 		if (caps && caps.length >= CAPS_MINIMUM) {
-			punishments.push({action: 'verbalwarn', rule: 'caps', reason: 'please do not abuse caps'});
+			punishments.push({action: 'verbalwarn', rule: 'caps', reason: 'bap'});
 		}
 
 		if (!punishments.length) return;
@@ -502,9 +502,22 @@ class MessageParser {
 		} else {
 			data.points = points;
 		}
+		let mute = false;
+		let roomban = false;
 		if (action === 'verbalwarn') return room.say(user.name + ", " + reason);
 		if (action === 'roomban' && !Users.self.hasRank(room, '@')) action = 'hourmute';
+		if (action === 'mute') mute = true;
+		if (action === 'hourmute') mute = true;
+		if (action === 'roomban') roomban = true;
 		room.say("/" + action + " " + user.name + ", " + reason);
+		if (action !== 'warn') room.say("/hidetext " + user.name);
+		if (mute = true) room.say("/unmute " + user.name);
+		if (roomban = true) {
+			room.say("/unban " + user.name);
+			room.say("/invite " + user.name);
+		}
+		mute = false;
+		roomban = false;
 		data.lastAction = time;
 	}
 }

@@ -130,7 +130,7 @@ let commands = {
 	},
 
 	// Tournament commands
-	tour: 'tournament',
+	baptour: 'tournament',
 	tournament: function (target, room, user) {
 		if (room instanceof Users.User || !Config.tournaments || !Config.tournaments.includes(room.id)) return;
 		if (!target) {
@@ -156,12 +156,14 @@ let commands = {
 			case 'start':
 				this.say("/tour start");
 				break;
+			case 'povertymons':
 			case 'pov':
 				this.say("/tour new gen7uu,elim");
 				this.say("/tour rules -aggron-mega, -moltres, -snorlax, -hidden power, -regenerator");
 				this.say("/tour autostart 1");
 				this.say("/wall This is a Povertymons tour!");
 				break;
+			case 'sheddy':
 			case 'mspl':
 				this.say("/tour new [Gen 6] Triples Custom Game, elim");
 				this.say("/tour rules -Uber, -OU, -UU, -RU, -NU, -PU, +Shedinja");

@@ -30,7 +30,7 @@
 ``.baplib`` Generates 2 random quotes in an htmlbox
 ### @ and Dev only
 ``.mbop [user]``or ``.megabop [user]`` -roombans then unbans and invites a user<br>
-``.purgealts - mass demotes roomvoices``
+``.purgealts - mass demotes roomvoices``<br>
 ### % and Dev only
 ``.bop [user]``-Mutes, clears text and unmutes a user<br>
 ## Games 

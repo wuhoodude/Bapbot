@@ -68,4 +68,4 @@ When Bapbot says a word, whoever types ``.g [word]`` first gets a point
 ``.roastbans``-Bapbot will show the roast banlist through PM<br>
 ``.bapban``- bans a user from bapping<br>
 ``.bapunban``-allows a user to bap again<br>
-``.bapbans``-shows a list of people banned from bapping
+``.bapbans``-shows a list of people banned from bapping<br>

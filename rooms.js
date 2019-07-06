@@ -105,6 +105,7 @@ exports.Room = Room;
 
 class Rooms {
 	constructor() {
+		/**@type {{[k: string]: Room}} */
 		this.rooms = {};
 
 		this.Room = Room;

@@ -14,9 +14,7 @@ const BACKUP_INTERVAL = 60 * 60 * 1000;
 
 class Storage {
 	constructor() {
-		/**@type {{[k: string]: AnyObject}} */
 		this.databases = {};
-		/**@type {AnyObject} */
 		this.globalDatabase = {};
 		this.backupInterval = setInterval(() => this.exportDatabases(), BACKUP_INTERVAL);
 	}

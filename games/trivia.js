@@ -9,7 +9,6 @@
 
 const name = "Trivia";
 
-/**@type {{[k: string]: {[k: string]: string[]}}} */
 const data = {
 	"Pokemon Moves": {},
 	"Pokemon Items": {},
@@ -60,7 +59,6 @@ class Trivia extends Games.Game {
 		this.points = new Map();
 		this.maxPoints = 3;
 		this.categories = Object.keys(data);
-		/**@type {{[k: string]: string[]}} */
 		this.questions = {};
 		for (let i = 0, len = this.categories.length; i < len; i++) {
 			this.questions[this.categories[i]] = Object.keys(data[this.categories[i]]);

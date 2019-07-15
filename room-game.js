@@ -360,7 +360,6 @@ class Game {
 	 * @return {{[k: string]: Player}}
 	 */
 	getRemainingPlayers() {
-		/**@type {{[k: string]: Player}} */
 		let remainingPlayers = {};
 		for (let i in this.players) {
 			if (!this.players[i].eliminated) remainingPlayers[i] = this.players[i];

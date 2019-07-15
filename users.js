@@ -65,7 +65,6 @@ exports.User = User;
 
 class Users {
 	constructor() {
-		/**@type {{[k: string]: User}} */
 		this.users = {};
 		this.self = this.add(Config.username);
 		this.pruneUsersInterval = setInterval(() => this.pruneUsers(), PRUNE_INTERVAL);

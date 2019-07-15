@@ -78,6 +78,7 @@ let commands = {
 		Storage.exportDatabase(room.id);
 		this.say("Your quote was successfully removed.");
 	},
+	"randbapquote":"bapquote",
 	bapquote: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;
 		//let quotes = " "

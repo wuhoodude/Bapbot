@@ -551,9 +551,10 @@ let commands = {
 	purgealts: function (target, room, user) {
 		if (room instanceof Users.User || !canMegaBop(user, room)) return;
 		let targets = target.split(',');
+		if (!target.startsWith("uu")) return this.say("You can only purge suspect alts");
 		for (let i = 0; i < targets.length; i++) {
 			this.say("/roomdevoice " + targets[i]);
-		}
+		} 
 	},
 	baplib: function (target, room, user) {
 		if (room instanceof Users.User || !user.hasRank(room, '+')) return;

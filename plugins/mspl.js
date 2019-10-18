@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license MIT license
  */
 
@@ -552,10 +552,10 @@ let commands = {
 		if (room instanceof Users.User || !canMegaBop(user, room)) return;
 		let targets = target.split(',');
 		for (let i = 0; i < targets.length; i++) {
-			if (!target[i].startsWith("uu")) {
-				return this.say("You can only purge suspect alts");
+			if (target[i].startsWith(target[0])) {
+				return this.say("/roomdevoice " + targets[i]);
 			}
-			else this.say("/roomdevoice " + targets[i]);
+			else this.say("You can only purge suspect alts");
 		} 
 	},
 	baplib: function (target, room, user) {

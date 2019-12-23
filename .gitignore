@@ -38,4 +38,5 @@ config.js
 plugins/private.js
 databases/*
 !databases/README.md
+!databases/mspl.json
 package-lock.json
